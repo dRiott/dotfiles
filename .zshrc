@@ -51,10 +51,6 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-# User configuration
-export PS1="_________________________________________________________________________________________________\n| \w @ \h (\u) \n| => "
-export PS2="| => "
-
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home
 export DERBY_HOME=$HOME/SD/Tools/db-derby-10.11.1.1-bin
 export ANT_HOME=$HOME/SD/Tools/apache-ant-1.9.6
