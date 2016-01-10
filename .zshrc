@@ -67,7 +67,7 @@ export PATH="/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin
 export CLASSPATH=.:$TOMCAT_HOME/lib/servlet-api.jar
 # export MANPATH="/usr/local/man:$MANPATH"
 
-include .bashrc if it exists
+# include private zshrc information if it exists
 if [ -f ~/.zshrc_private ]; then
     . ~/.zshrc_private
 fi
