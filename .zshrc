@@ -67,19 +67,10 @@ export PATH="/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin
 export CLASSPATH=.:$TOMCAT_HOME/lib/servlet-api.jar
 # export MANPATH="/usr/local/man:$MANPATH"
 
-#set up AWS variables for Metaplay.me
-export AWS_URL=metaplay.c1nbtf7dwiku.us-west-2.rds.amazonaws.com
-export AWS_KEYPAIR=/Users/PoorYorick/Documents/AWSKeyPair/s-0KeyPair.pem
-
-#set up AWS hostname for SD Registry App
-export REGISTRY_URL=sd2registry.c1nbtf7dwiku.us-west-2.rds.amazonaws.com
-
-#set up variables for a mongo project
-export MONGO_URL=s-0.metaplay.6882.mongodbdns.com
-export PF_MONGO_URL=ds039484.mongolab.com:39484/personalfinance
-
-#set NODE_ENV for Node.js Project to 'development'
-export NODE_ENV=development
+include .bashrc if it exists
+if [ -f ~/.zshrc_private ]; then
+    . ~/.zshrc_private
+fi
 
 source $ZSH/oh-my-zsh.sh
 
