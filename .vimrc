@@ -1,25 +1,24 @@
+" (>^.^<) "                                                   David Riott, 2016
+
 " Vim's prefix variables.
 let mapleader=","
 let maplocalleader = "||"
 
-" echo '" (>^.^<) "'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-                            "Vundle Plugin Setup"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+                            " Vundle Plugin Setup:
 
 set nocompatible              " be iMproved, required
 filetype off                  " required for Vundle, will be turned on later
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin() "Alternatively, vundle#begin('~/path/install/plugins')
 
-Plugin 'VundleVim/Vundle.vim' " let Vundle manage Vundle, required
+"Alternatively, vundle#begin('~/path/install/plugins')
+call vundle#begin()
 
-" ~~~~~~~~~~~~~~~ Plugin commands between vundle#begin/end. ~~~~~~~~~~~~~~~~ "
+Plugin 'VundleVim/Vundle.vim'            " let Vundle manage Vundle, required
 Plugin 'tpope/vim-fugitive'              " Git for Vim
 Plugin 'tpope/vim-surround'              " Easily d, c, i surroundings in pairs
 Plugin 'tpope/vim-commentary'            " Comment stuff out
@@ -54,30 +53,12 @@ Plugin 'marijnh/tern_for_vim'            " Completion for JS, esp. w/ YouComplet
 Plugin 'mhinz/vim-signify'               " Git info in the gutter.
 Plugin 'rking/ag.vim'                    " Search across a lot of files.
 
-" Examples of the ways Vundle can find and install Plugins...
+call vundle#end()
 
-	" From http://vim-scripts.org
-		" Plugin 'L9'
+" Required by Vundle, to ignore plugin indent changes use: filetype plugin on
+filetype plugin indent on
 
-	" Git plugin not hosted on GitHub
-		" Plugin 'git://git.wincent.com/command-t.git'
-
-	" Git repos on your local machine (when working on your own plugin)
-		" Plugin 'file:///home/gmarik/path/to/plugin'
-
-	" Vim script is in a subdirectory of this repo called vim.
-	" Pass the path to set the runtimepath properly.
-		" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-
-	" Avoid a name conflict with L9
-		" Plugin 'user/L9', {'name': 'newL9'}
-
-
-call vundle#end()            " Add all plugins before this line, Vundle
-filetype plugin indent on    " required by Vundle
-" To ignore plugin indent changes, instead use: filetype plugin on
-
-""" Brief Help With Vundle
+" Brief Help With Vundle
     " see :h vundle for more details or wiki for FAQ
     " :PluginList       - lists configured plugins
     " :PluginInstall    - installs plugins; append `!` to update or just
@@ -86,13 +67,52 @@ filetype plugin indent on    " required by Vundle
     " :PluginClean      - confirms removal of unused plugins; append `!` to
     " auto-approve removal
 
+" Other ways Vundle can find and install Plugins...
+    " 1. From http://vim-scripts.org
+	    " Plugin 'L9'
+    " 2. Git plugin not hosted on GitHub
+	    " Plugin 'git://git.wincent.com/command-t.git'
+    " 3. Git repos on your local machine (when working on your own plugin)
+	    " Plugin 'file:///home/gmarik/path/to/plugin'
+    " 4. In a subdirectory of a repo called vim.
+    "    Pass the path to set the runtimepath properly.
+	    " Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+    " 5. Avoid a name conflict, e.g. with L9
+	    " Plugin 'user/L9', {'name': 'newL9'}
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-                            "Plugin Customization"
+                              " Basic Settings:
+syntax on
+
+set number                 " line numbers
+set history=500		   " keep 500 lines of command line history
+set noruler		   " hide the cursor position all the time
+set showcmd		   " display incomplete commands
+set incsearch		   " do incremental searching
+set hlsearch               " search highlighting on.
+
+set backspace=indent,eol,start    " allow backspacing over everything in insert
+
+" Foldlevel 0 is unindented lines, 1 is both unindented and singlely, etc.
+set foldmethod=indent
+set foldlevel=3
+
+" Codebase that uses 4 space characters for each indent
+set tabstop=8              " size of a hard tabstop
+set softtabstop=0          " comination of spaces and tabs are used to simulate tab stops at a width
+set expandtab              " always uses spaces insead of tab characters
+set shiftwidth=4           " size of an 'indent'
+set smarttab               " make 'tab' insert indents indead of tabs at the beginning of a line
+
+" Codebase that uses a single tab character that appears 4-spaces-wide
+" set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+                            " Plugin Customization:
 
 " Airline Customization:
 	set laststatus=2
@@ -125,48 +145,48 @@ filetype plugin indent on    " required by Vundle
 	let g:airline_symbols.paste = '∥'
 	let g:airline_symbols.whitespace = 'Ξ'
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " NerdTree Customization:
-	let NERDTreeShowHidden=1      " show hidden files in NerdTree
 
-	autocmd VimEnter *
-            \   if !argc()
-            \ |   Startify
-            \ |   NERDTree
-            \ |   wincmd w
-            \ | endif
+    let NERDTreeShowHidden=1      " show hidden files in NerdTree
 
-        " Ctrl-n Toggles NerdTree
-	map <C-n> :NERDTreeToggle<CR>
+    autocmd VimEnter *
+        \   if !argc()
+        \ |   Startify
+        \ |   NERDTree
+        \ |   wincmd w
+        \ | endif
 
-	" Close NerdTree if it's the only window left
-	autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree")
-	      	\ && b:NERDTree.isTabTree()) | q | endif
+    " Ctrl-n Toggles NerdTree
+    noremap <C-n> :NERDTreeToggle<CR>
 
-	" Provide Bookmarks to Startify
-	let g:startify_bookmarks = [ {'v': '~/.vimrc'}, {'z': '~/.zshrc'} ]
+    " Close NerdTree if it's the only window left
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree")
+	\ && b:NERDTree.isTabTree()) | q | endif
 
-	let g:startify_custom_footer = [
-	    \ '',
-	    \ '',
-	    \ '',
-	    \ '    This shit be poppin''. Welcome to Vim.               ',
-	    \ '',
-	    \ ]
+    " Personalize by Providing Bookmarks to Startify
+    let g:startify_bookmarks = [ {'v': '~/.vimrc'}, {'z': '~/.zshrc'} ]
 
-	let g:startify_custom_header = [
-            \ '    "And Lo, for the Earth was empty of Form, and void.  ',
-            \ '     And Darkness was all over the Face of the Deep.     ',
-            \ '       And We said: ''Look at that fucker Dance.''"      ',
-            \ '                                                         ',
-            \ '           - David Foster Wallace, Infinite Jest         ',
-            \ '',
-            \ ]
+    let g:startify_custom_footer = [
+	\ '',
+	\ '',
+	\ '',
+	\ '    This shit be poppin''. Welcome to Vim.               ',
+	\ '',
+	\ ]
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    let g:startify_custom_header = [
+        \ '    "And Lo, for the Earth was empty of Form, and void.  ',
+        \ '     And Darkness was all over the Face of the Deep.     ',
+        \ '       And We said: ''Look at that fucker Dance.''"      ',
+        \ '                                                         ',
+        \ '           - David Foster Wallace, Infinite Jest         ',
+        \ '',
+        \ ]
+
 
 " DragVisuals Customization:
+
     " Drag Visuals - Created By Damian Conway Customization:
     " vmap  <expr>  <LEFT>   DVB_Drag('left')
     " vmap  <expr>  <RIGHT>  DVB_Drag('right')
@@ -177,9 +197,9 @@ filetype plugin indent on    " required by Vundle
     " Remove any introduced trailing whitespace after moving...
     " let g:DVB_TrimWS = 1
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Syntastic Customization:
+
     set statusline+=%#warningmsg#
     set statusline+=%{SyntasticStatuslineFlag()}
     set statusline+=%*
@@ -189,27 +209,12 @@ filetype plugin indent on    " required by Vundle
     let g:syntastic_check_on_open = 1
     let g:syntastic_check_on_wq = 0
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-                            "Non-Plugin Customization"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-syntax on
-
-set number                 " line numbers
-set history=500		   " keep 500 lines of command line history
-set noruler		   " hide the cursor position all the time
-set showcmd		   " display incomplete commands
-set incsearch		   " do incremental searching
-set hlsearch               " search highlighting on.
-
-set backspace=indent,eol,start    " allow backspacing over everything in insert
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-                 " LEARN VIM THE HARD WAY - PLAYGROUND "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+                                 " Mappings:
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~ Normal Mode Mappings ~~~~~~~~~~~~~~~~~~~~~~~~~~~ "
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Normal Mode Mappings
 
 " Assign <space> to center the screen on cursor.
 nnoremap <space> zz
@@ -237,8 +242,10 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 " Note: Not currently working? Also, messes with Airline... just wq and reopen
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
+" Damian Conway: Releases 'last search pattern' register by hitting return
+nnoremap <CR> :noh<CR><CR>
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~ Insert Mode Mappings ~~~~~~~~~~~~~~~~~~~~~~~~~~~ "
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Insert Mode Mappings
 
 " In insert mode, CTRL-d deletes a line.
 inoremap <leader><c-d> <esc>ddi
@@ -248,7 +255,7 @@ inoremap <leader><c-d> <esc>ddi
 inoremap <C-U> <C-G>u<C-U>
 
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~ Operator Pending Mappings ~~~~~~~~~~~~~~~~~~~~~~~ "
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Operator Pending Mappings
 
 " Edit around/inside next/previous (, {, or [
 onoremap in( :<c-u>normal! f(vi(<cr>
@@ -267,7 +274,7 @@ onoremap al[ :<c-u>normal! F[bvt[<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-                               " Abbreviations "
+                               " Abbreviations:
 
 iabbrev adn and
 iabbrev waht what
@@ -278,7 +285,8 @@ iabbrev ccopy Copyright 2016 David Riott, all rights reserved.
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-                               " Auto-Commands "
+                               " AutoCommands:
+
 " Html file settings ------------- {{{
 augroup filetype_html
     autocmd!
@@ -296,94 +304,34 @@ augroup filetype_html
 augroup filetype_vim
     autocmd!
         autocmd FileType vim setlocal foldmethod=marker
+        autocmd FileType vim setlocal foldlevelstart=0
     augroup END
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Method Folding
-" Open a fold & close a fold: za
-" Foldlevel tells vim which level of indents to show, where 0 is
-" unindented lines, and 1 is both unindented and singlely indented, etc.
-set foldlevel=3
-set foldmethod=indent      " sets method folding on.
-
-
-" Codebase that uses 4 space characters for each indent
-set tabstop=8              " size of a hard tabstop
-set softtabstop=0          " comination of spaces and tabs are used to simulate tab stops at a width
-set expandtab              " always uses spaces insead of tab characters
-set shiftwidth=4           " size of an 'indent'
-set smarttab               " make 'tab' insert indents indead of tabs at the beginning of a line
-
-" Codebase that uses a single tab character that appears 4-spaces-wide
-" set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
-
+                              " Functions Etc:
 
 " Damian Conway:  Guide Highlight in magenta the 81st column
 highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%81v', 100)
 
-" Damian Conway: Releases 'last search pattern' register by hitting return
-nnoremap <CR> :noh<CR><CR>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-                    " New Stuff Not Yet Worked Out "
-
-" This gives autocompletion with Java
-" ctags -f ~/.tags -R ~/myprojects/src $JAVA_HOME/src
-
-" Allows you to complete any class, method, or field name
-" with [Ctrl]N while in insert mode
-" set complete=.,w,b,u,t,
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-if has("vms")
-  set nobackup		   " do not keep a backup file, use versions instead
-else
-  set backup	           " keep a backup file
-endif
-
-
-" Enable the mouse... for the faint-hearted
-" if has('mouse')
- "  set mouse=a
-" endif
-
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-" if &t_Co > 2 || has("gui_running")
-  " syntax on
-  " set hlsearch
-" endif
-
-" Only when compiled with support for autocommands.
 if has("autocmd")
-    " Put these in an autocmd group, so that we can delete them easily.
     augroup vimrcEx
     au!
 
     " For all text files set 'textwidth' to 80 characters.
     autocmd FileType text setlocal textwidth=80
 
-    " When editing a file, always jump to the last known cursor position.
-    " Don't do it when the position is invalid or when inside an event handler
+    " Always jump to the last known cursor position.
+    " Unless position is invalid or when inside an event handler
     " (happens when dropping a file on gvim).
-    " Also don't do it when the mark is in the first line, that is the default
-    " position when opening a file.
+    " Don't when the mark is in the first line, that is the default
     autocmd BufReadPost *
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
     \   exe "normal! g`\"" |
     \ endif
     augroup END
-else
-    set autoindent		" always set autoindenting on
 endif " has("autocmd")
 
 " Command to see dif btwn current buffer & file loaded from, thus: changes made
@@ -392,4 +340,31 @@ if !exists(":DiffOrig") " Only define it when not defined already.
 		  \ | wincmd p | diffthis
 endif
 
-"************************* End Vimrc ****************************
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+                            " Unused Saved Settings:
+
+" if has("vms")
+    " set nobackup	   " do not keep a backup file, use versions instead
+" else
+    " set backup	           " keep a backup file
+" endif
+
+" Enable the mouse... for the faint-hearted
+" if has('mouse')
+    "  set mouse=a
+" endif
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+                             " To Be Worked Out:
+
+" Autocompletion with Java...?
+" ctags -f ~/.tags -R ~/myprojects/src $JAVA_HOME/src
+
+" Complete any class, method, or field name with [Ctrl]N while in insert mode
+" set complete=.,w,b,u,t,
+
+
