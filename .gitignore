@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!aliasrc.sh
+!./zsh/.zshrc
+!functionrc.sh
+!./nvim/init.vim
+
