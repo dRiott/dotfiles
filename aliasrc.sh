@@ -22,10 +22,11 @@ alias spotbugs="gw spotbugsMain && ./gradlew spotbugsReport"
 alias coverage="./gradlew clean test jacocoTestReport jacocoTestCoverage jacocoTestCoverageVerification"
 
 ##### OPENING FILES #####
-alias zshrc="nvim $ZDOTDIR/.zshrc && source $ZDOTDIR/.zshrc && echo Sourced $ZDOTDIR/.zshrc"
-alias aliasrc="nvim $XDG_CONFIG_HOME/aliasrc.sh && source $XDG_CONFIG_HOME/.zshrc"
-alias frc="nvim $XDG_CONFIG_HOME/functionrc.sh  && source $XDG_CONFIG_HOME/.zshrc"
-alias src="nvim $XDG_CONFIG_HOME/secrets.sh  && source $XDG_CONFIG_HOME/.zshrc"
+alias sourceZshrc="source $ZDOTDIR/.zshrc && echo Sourced $ZDOTDIR/.zshrc"
+alias zshrc="nvim $ZDOTDIR/.zshrc && sourceZshrc"
+alias aliasrc="nvim $XDG_CONFIG_HOME/aliasrc.sh && sourceZshrc"
+alias frc="nvim $XDG_CONFIG_HOME/functionrc.sh && sourceZshrc"
+alias src="nvim $XDG_CONFIG_HOME/secrets.sh && sourceZshrc"
 
 alias ls="ls -la"
 alias vim="nvim"
@@ -52,8 +53,6 @@ alias dlogin="echo "$ARTIFACTORY_PASSWORD" | docker login --username "$ARTIFACTO
 alias dup="docker-compose -f .docker/docker-compose.yml up"
 alias ddown="docker-compose -f .docker/docker-compose.yml down"
 
-# Automox
-alias amrun="sudo launchctl list | grep -E 'remotecontrold|automox'"
 
 prodToLocal () {
    echo "Searching for Order #$1 in production..."
@@ -141,4 +140,9 @@ alias getk8secrets='k get secrets -o yaml > secrets.yaml && echo Created secrets
 function kcatOrders() {
   kcat -t order-events-avro -b meadow.prod.us-west-2.aws.proton.nordstrom.com:9093 -X security.protocol=sasl_ssl -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$PROTON_MEADOW_ACCESS_KEY -X sasl.password=$PROTON_MEADOW_SECRET_KEY -C -p $1 -o $2 -c 1 -s value=avro -r https://$PROTON_MEADOW_ACCESS_KEY:$PROTON_MEADOW_SECRET_KEY@schema-registry.prod.us-west-2.aws.proton.nordstrom.com -e -f '\nHeaders: %h \nKey (%K bytes): %k\t\nValue (%S bytes): %s\nPartition: %p\tOffset: %o\n--\n'
 }
+
+
+##### REMOTECONTROL #####
+alias amrun="sudo launchctl list | grep -E 'remotecontrold|automox'"
+alias rcdstop="set RCD_PATH=/Library/LaunchDaemons/remotecontrold.plist && sudo launchctl stop $RCD_PATH && sudo launchctl unload $RCD_PATH && unset RCD_PATH"
 
