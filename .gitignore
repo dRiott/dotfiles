@@ -1,10 +1,13 @@
-# Ignore everything
-*
+.DS_Store
 
-# But not these files...
-!.gitignore
-!aliasrc.sh
-!./zsh/.zshrc
-!functionrc.sh
-!./nvim/init.vim
+secrets.sh
+
+zsh/.zc*
+zsh/.zsh_history
+
+iTerm2/*
+karabiner/*
+MionixHub/
+jgit/
+configstore
 
