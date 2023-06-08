@@ -7,9 +7,10 @@
 # oh-my-zsh: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 # zsh-syntax-highlighting: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 # powerlevel10k: git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+# Vim Plug (Neovim link) sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 ### HOMEBREW
-# e.g. brew install nvim zsh-syntax-highlighting
+# e.g. brew install go nvim helm jq zsh-syntax-highlighting derailed/k9s/k9s
 
 ### JAVA
 export JAVA_HOME=$(/usr/libexec/java_home -v 17)
@@ -72,3 +73,5 @@ export GOPRIVATE=github.com/PatchSimple/*,github.com/patchsimple/*
 # add K8s autocomplete permanently to your zsh shell
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
 
+export RCD=/Library/Application\ Support/Automox/modules
+export RLOG="/usr/local/var/log/remotecontrold.log"

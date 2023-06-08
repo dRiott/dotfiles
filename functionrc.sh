@@ -56,3 +56,70 @@ function testLoopy() {
   done
 }
 
+function mvDevice() {
+  sh $HOME/code/shell/moveDeviceToOrg.sh $1
+}
+function getDBCreds() {
+	echo "username:\n" && kubectl get secret db-psdb-aurora-dev --template={{.data.dbuser}} -n dev | base64 -D && echo "\npassword:\n" && kubectl get secret db-psdb-aurora-dev --template={{.data.dbpass}} -n dev | base64 -D
+}
+
+# Stops the RemoteControlD daemon.
+function rcdstop() {
+  RCD_PATH=/Library/LaunchDaemons/remotecontrold.plist 
+  echo $RCD_PATH
+  sudo launchctl stop $RCD_PATH && echo "Stopped."
+  sudo launchctl unload $RCD_PATH && echo "Unloaded."
+}
+
+# Starts the RemoteControlD daemon.
+function rcdstart() {
+  RCD_PATH=/Library/LaunchDaemons/remotecontrold.plist 
+  echo $RCD_PATH
+  sudo launchctl load $RCD_PATH && echo "Loaded."
+}
+
+# Stops the Automox Agent
+function amstop() {
+  sudo launchctl unload /Library/LaunchDaemons/com.automox.agent.plist
+}
+
+# Starts the Automox Agent
+function amstart() {
+  sudo launchctl load /Library/LaunchDaemons/com.automox.agent.plist
+}
+
+# Stops & Starts the Automox Agent
+function amrestart() { amstop && amstart }
+
+function get_iam_rds_password()
+{
+    export AWS_PROFILE=saml
+    moxie login
+    all_good=0;
+    REGION=us-west-2;
+    DB_USERNAME="${2:-psdb-readwrite-prod}";
+    if [[ "$1" = "stg" ]]; then
+        RDSHOST="ax-db-k8s-staging-replica.c84tajvtp0ss.us-west-2.rds.amazonaws.com";
+        all_good=1;
+    else
+        if [[ "$1" = "prod" ]]; then
+            RDSHOST="am-db95-prod-02.czakv1rc16fd.us-west-2.rds.amazonaws.com";
+            all_good=1;
+        else
+            echo "Please specify an environment - stg, prod";
+            echo "Usage: get_rds_password <env>";
+        fi;
+    fi;
+    if [[ "$all_good" -eq 1 ]]; then
+        echo "DB Hostname: $RDSHOST";
+        echo "DB Username: $DB_USERNAME";
+        PGPASSWORD="$(aws rds generate-db-auth-token --hostname $RDSHOST --port 5432 --region $REGION --username $DB_USERNAME)";
+        sleep 3
+        echo "DB Password: $PGPASSWORD";
+        psql "sslmode=require host=$RDSHOST user=$DB_USERNAME dbname=ps"
+    fi
+}
+
+function dbeaverProd() {
+  /Applications/DBeaver.app/Contents/MacOS/dbeaver dbeaver -con "driver=postgresql|name=moxie-cli|url=$(moxie db login --url-format=jdbc | tail -1)"
+}

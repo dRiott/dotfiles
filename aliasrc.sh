@@ -82,7 +82,7 @@ alias mga='make style && git add'
 alias ga='git add'
 alias gl='git log --graph --decorate --oneline'
 alias gma='git commit --amend'
-alias head='git reset --hard HEAD'
+#alias head='git reset --hard HEAD'
 alias gs='git status'
 alias gm='git commit -m'
 alias fm='ga -A && gm $1'
@@ -90,7 +90,8 @@ alias gb='git branch'
 alias gc='git checkout'
 alias gpu='git pull'
 alias gcl='git clone'
-alias gta='git tag -a -m'
+alias gtag='git tag -a -m'
+alias gtl='git tag -l -n1'
 
 # Further Git Aliases
 alias fp='git push --force'
@@ -127,9 +128,6 @@ alias k="kubectl"
 alias kgp="k get pods"
 alias k8login='kubelogin login aws-nonprod && k8nonprod'
 alias k8loginprod='kubelogin login aws-prod && k8prod'
-alias k8mini='k config use-context minikube'
-alias k8prod='k config use-context aws_prod_west_barcelona'
-alias k8nonprod='k config use-context aws_nonprod_west_hydrogen'
 alias getk8secrets='k get secrets -o yaml > secrets.yaml && echo Created secrets.yaml file in $(pwd) && vim secrets.yaml && rm secrets.yaml && echo Deleted secrets.yaml'
 
 
@@ -144,5 +142,21 @@ function kcatOrders() {
 
 ##### REMOTECONTROL #####
 alias amrun="sudo launchctl list | grep -E 'remotecontrold|automox'"
-alias rcdstop="set RCD_PATH=/Library/LaunchDaemons/remotecontrold.plist && sudo launchctl stop $RCD_PATH && sudo launchctl unload $RCD_PATH && unset RCD_PATH"
+# /usr/local/var/log/remotecontrold.err
+alias rcdlog="sudo tail -f -n 100 /Library/Application\ Support/Automox/modules/remotecontrol/install.log /usr/local/var/log/remotecontrold.log"
+alias rcdlogjq="sudo cat /usr/local/var/log/remotecontrold.log | jq"
+alias rmrcdlog="sudo bash -c 'cat /dev/null > /usr/local/var/log/remotecontrold.log' && sudo bash -c 'cat /dev/null > /Library/Application\ Support/Automox/modules/remotecontrol/install.log'"
+alias rlog="rmrcdlog && rcdlog"
+alias rmrcd="sudo rm -rf /Library/Application\ Support/Automox/modules && sudo rm -rf /Applications/Remote\ Control.app/ && tccReset && sudo rm -f /Library/LaunchDaemons/remotecontrold.plist && rmlog"
+alias tccReset="tccutil reset ScreenCapture com.automox.RemoteControl && tccutil reset Accessibility com.automox.RemoteControl"
+alias tccResetGoland="tccutil reset ScreenCapture com.jetbrains.goland && tccutil reset Accessibility com.jetbrains.goland"
+alias rmlog="sudo rm -f $RLOG"
 
+
+# RecordWorkday
+alias captureWorkday="osascript $HOME/code/shell/applescript/captureWorkday.scpt"
+
+# Required for "Agent" unit tests (replace Apple-native tail with GNU's tail) 
+alias tail=gtail
+
+alias gt="echo $GH_TOKEN | pbcopy"

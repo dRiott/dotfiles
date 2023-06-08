@@ -6,6 +6,7 @@ zsh/.zc*
 zsh/.zsh_history
 
 iTerm2/*
+zsh/.zsh_sessions
 karabiner/*
 MionixHub/
 jgit/
