@@ -13,7 +13,7 @@
 # e.g. brew install go nvim helm jq zsh-syntax-highlighting derailed/k9s/k9s
 
 ### JAVA
-export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+#export JAVA_HOME=$(/usr/libexec/java_home -v 17)
 #export JAVA_HOME=$(/usr/libexec/java_home -v 11)
 # /Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home
 
@@ -60,6 +60,7 @@ export SKAFFOLD_NAMESPACE=driott
 [ -f "$XDG_CONFIG_HOME/aliasrc.sh" ] && source "$XDG_CONFIG_HOME/aliasrc.sh"
 [ -f "$XDG_CONFIG_HOME/functionrc.sh" ] && source "$XDG_CONFIG_HOME/functionrc.sh"
 [ -f "$XDG_CONFIG_HOME/secrets.sh" ] && source "$XDG_CONFIG_HOME/secrets.sh"
+[ -f "$XDG_CONFIG_HOME/company.sh" ] && source "$XDG_CONFIG_HOME/company.sh"
 
 ### Golang
 
@@ -68,10 +69,8 @@ export GOPATH=$HOME/code/go/golib
 export GOROOT="$(brew --prefix golang)/libexec"
 export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 export GOPATH=$GOPATH:$HOME/code/go/gocode
-export GOPRIVATE=github.com/PatchSimple/*,github.com/patchsimple/*
 
 # add K8s autocomplete permanently to your zsh shell
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
 
-export RCD=/Library/Application\ Support/Automox/modules
-export RLOG="/usr/local/var/log/remotecontrold.log"
+export GOKU_EDN_CONFIG_FILE="$XDG_CONFIG_HOME/karabiner/karabiner.edn"

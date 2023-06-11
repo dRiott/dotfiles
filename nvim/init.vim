@@ -15,8 +15,9 @@ set hlsearch                      " search highlighting on.
 set backspace=indent,eol,start    " allow backspacing over everything in insert
 
 " Foldlevel 0 is unindented lines, 1 is both unindented and singlely, etc.
-set foldmethod=indent
-set foldlevel=3
+set nofoldenable                  " disable folding
+" set foldmethod=indent
+" set foldlevel=3
 
 " Codebase that uses 2 space characters for each indent
 set tabstop=4                     " size of a hard tabstop

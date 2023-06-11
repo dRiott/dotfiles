@@ -27,17 +27,19 @@ alias zshrc="nvim $ZDOTDIR/.zshrc && sourceZshrc"
 alias aliasrc="nvim $XDG_CONFIG_HOME/aliasrc.sh && sourceZshrc"
 alias frc="nvim $XDG_CONFIG_HOME/functionrc.sh && sourceZshrc"
 alias src="nvim $XDG_CONFIG_HOME/secrets.sh && sourceZshrc"
+alias crc="nvim $XDG_CONFIG_HOME/company.sh && sourceZshrc"
+
 
 alias ls="ls -la"
 alias vim="nvim"
 alias v="nvim"
 alias vimrc="nvim ~/.nvim/.nvimrc"
-alias xbar="cd /Users/driott/Library/Application\ Support/xbar/plugins"
+alias xbar="cd $HOME/Library/Application\ Support/xbar/plugins"
 alias top50="nvim ~/top50.txt"
 
 # Custom Functions
 alias deletevideostream="kill -9 $(lsof -i TCP:5556 | awk '{print $2}')"
-alias changeExt="/Users/driott/code/shell/change-extensions.sh"
+alias changeExt="$HOME/code/shell/change-extensions.sh"
 
 # Directory Aliases
 alias gocode="cd ~/code"
@@ -45,11 +47,7 @@ alias gowork="cd ~/Documents/work"
 
 alias config="nvim ~/.aws/config"
 
-alias phpv7="brew unlink php && brew link php@7.4"
-alias phpv8="brew unlink php@7.4 && brew link php"
-
 # DOCKER
-alias dlogin="echo "$ARTIFACTORY_PASSWORD" | docker login --username "$ARTIFACTORY_USER" --password-stdin automox.jfrog.io"
 alias dup="docker-compose -f .docker/docker-compose.yml up"
 alias ddown="docker-compose -f .docker/docker-compose.yml down"
 
@@ -73,12 +71,8 @@ alias awsls="aws --profile=$PROFILE s3 ls "
 alias ecsBounceProd="aws ecs update-service --force-new-deployment --service nepp-service-v3-prod-NeppService-TI6KZ689FZP7 --cluster nepp-ecs-cluster-prod --region=us-west-2"
 alias ecsBounce="aws ecs update-service --force-new-deployment --service nepp-service-v3-dev-NeppService-YaeUwbR7illP --cluster nepp-ecs-cluster-dev --region=us-west-2 && aws ecs update-service --force-new-deployment --service nepp-service-v3-int-NeppService-1JBRLSOC27D36 --cluster nepp-ecs-cluster-int --region=us-west-2"
 
-# Makefile aliases
-alias ms="make style"
-
 ##### GIT #####
 # Git Aliases
-alias mga='make style && git add'
 alias ga='git add'
 alias gl='git log --graph --decorate --oneline'
 alias gma='git commit --amend'
@@ -104,6 +98,7 @@ alias release="gc release && gpu"
 alias frelease="gc --force release && gpu"
 alias master="gc master && gpu"
 alias main="gc main && gpu"
+alias develop="gc develop && gpu"
 alias fmaster="gc --force master && gpu"
 
 # Git Functions
@@ -116,11 +111,6 @@ rlb() {
 rlbForce() {
   git branch -vv | grep ": gone]" | sed -rn 's/.{2}(.*)*$/\1/p' | sed -rn 's/([\/a-zA-Z0-9_-]+) *.*/\1/p' | xargs git branch -D
 }
-
-alias ml="moxie login"
-alias mc="moxie console" # opens the AWS Console in a browser window.
-alias mldrc="ml --role=$MOXIE_DEV_RC_ADMIN -cdev-usw2-mox0"
-alias mlprc="ml --role=$MOXIE_PROD_RC_ADMIN -cprod-usw2-mox0"
 
 ##### KUBERNETES #####
 # Also see functions in separate file.
@@ -140,23 +130,9 @@ function kcatOrders() {
 }
 
 
-##### REMOTECONTROL #####
-alias amrun="sudo launchctl list | grep -E 'remotecontrold|automox'"
-# /usr/local/var/log/remotecontrold.err
-alias rcdlog="sudo tail -f -n 100 /Library/Application\ Support/Automox/modules/remotecontrol/install.log /usr/local/var/log/remotecontrold.log"
-alias rcdlogjq="sudo cat /usr/local/var/log/remotecontrold.log | jq"
-alias rmrcdlog="sudo bash -c 'cat /dev/null > /usr/local/var/log/remotecontrold.log' && sudo bash -c 'cat /dev/null > /Library/Application\ Support/Automox/modules/remotecontrol/install.log'"
-alias rlog="rmrcdlog && rcdlog"
-alias rmrcd="sudo rm -rf /Library/Application\ Support/Automox/modules && sudo rm -rf /Applications/Remote\ Control.app/ && tccReset && sudo rm -f /Library/LaunchDaemons/remotecontrold.plist && rmlog"
-alias tccReset="tccutil reset ScreenCapture com.automox.RemoteControl && tccutil reset Accessibility com.automox.RemoteControl"
-alias tccResetGoland="tccutil reset ScreenCapture com.jetbrains.goland && tccutil reset Accessibility com.jetbrains.goland"
-alias rmlog="sudo rm -f $RLOG"
-
-
 # RecordWorkday
 alias captureWorkday="osascript $HOME/code/shell/applescript/captureWorkday.scpt"
 
-# Required for "Agent" unit tests (replace Apple-native tail with GNU's tail) 
-alias tail=gtail
+# Setting up Karabiner
+alias vgok="vim ~/.config/karabiner/karabiner.edn && goku"
 
-alias gt="echo $GH_TOKEN | pbcopy"
