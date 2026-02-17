@@ -1,0 +1,71 @@
+k9s:
+  refreshRate: 2
+  maxConnRetry: 5
+  enableMouse: false
+  headless: false
+  logoless: false
+  crumbsless: false
+  readOnly: false
+  noExitOnCtrlC: false
+  noIcons: false
+  skipLatestRevCheck: false
+  logger:
+    tail: 100
+    buffer: 5000
+    sinceSeconds: 300
+    fullScreenLogs: false
+    textWrap: false
+    showTime: false
+  currentContext: arn:aws:eks:us-west-2:871240604849:cluster/dev-usw2-mox0
+  currentCluster: arn:aws:eks:us-west-2:871240604849:cluster/dev-usw2-mox0
+  clusters:
+    arn:aws:eks:us-west-2:630351455277:cluster/prod-usw2-mox0:
+      namespace:
+        active: remotecontrol
+        lockFavorites: false
+        favorites:
+        - remotecontrol
+        - default
+      view:
+        active: po
+      featureGates:
+        nodeShell: false
+      shellPod:
+        image: busybox:1.35.0
+        command: []
+        args: []
+        namespace: default
+        limits:
+          cpu: 100m
+          memory: 100Mi
+        labels: {}
+      portForwardAddress: localhost
+    arn:aws:eks:us-west-2:871240604849:cluster/dev-usw2-mox0:
+      namespace:
+        active: remotecontrol
+        lockFavorites: false
+        favorites:
+        - remotecontrol
+        - default
+      view:
+        active: context
+      featureGates:
+        nodeShell: false
+      shellPod:
+        image: busybox:1.35.0
+        command: []
+        args: []
+        namespace: default
+        limits:
+          cpu: 100m
+          memory: 100Mi
+        labels: {}
+      portForwardAddress: localhost
+  thresholds:
+    cpu:
+      critical: 90
+      warn: 70
+    memory:
+      critical: 90
+      warn: 70
+  screenDumpDir: /var/folders/mb/slzyxfr96jvbg7klhc48vcr00000gn/T/k9s-screens-driott

@@ -1,0 +1,42 @@
+plugins:
+  jqlogs:
+    shortCut: Ctrl-J
+    confirm: false
+    description: "Logs (jq)"
+    scopes:
+      - po
+    command: kubectl
+    background: false
+    args:
+      - jq
+      - $NAME
+      - $NAMESPACE
+      - $CONTEXT
+
+  decode_json_container_logs:
+    shortCut: Ctrl-L
+    confirm: false
+    description: Decode logs
+    scopes:
+      - containers
+    command: decode_json_logs
+    background: false
+    args:
+      - --namespace
+      - $NAMESPACE
+      - $POD
+      - --container
+      - $NAME
+
+  decode_json_pod_logs:
+    shortCut: Ctrl-L
+    confirm: false
+    description: Decode logs
+    scopes:
+      - pods
+    command: decode_json_logs
+    background: false
+    args:
+      - --namespace
+      - $NAMESPACE
+      - $NAME
