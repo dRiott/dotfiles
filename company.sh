@@ -260,7 +260,15 @@ function kreds() {
 
   local project_id=$1
   local cluster_name=$2
-  local region=${3:-us-east1-b}  # Default to us-east1-b if not provided
+  local region=$3
+  if [[ -z "$region" ]]; then
+    echo "Discovering cluster location..."
+    region=$(gcloud container clusters list --project="$project_id" --filter="name=$cluster_name" --format="value(location)" 2>/dev/null)
+    if [[ -z "$region" ]]; then
+      region="us-east1-b"  # fallback
+      echo "Could not auto-detect region, using default: $region"
+    fi
+  fi
 
   # Check if required arguments are provided
   if [[ -z "$project_id" || -z "$cluster_name" ]]; then
