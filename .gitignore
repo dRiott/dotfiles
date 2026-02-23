@@ -20,8 +20,7 @@ argocd/
 crossnote/
 dlv/
 fish/
-nvm/
 zed/
 zsh-backup-20260205/
 .tmux.conf
-
+nvim/lazy-lock.json

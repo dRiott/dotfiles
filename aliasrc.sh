@@ -15,6 +15,8 @@ alias btRmHost="rm ~/Library/Preferences/com.apple.Bluetooh*"
 
 # Typo fixes
 alias cladue="claude"
+alias cl="claude"
+alias clh="claude --model haiku"
 
 # -----------------------------------------------------------------------------
 # File Navigation & Editing
@@ -82,6 +84,12 @@ alias gpu='git pull'
 alias gcl='git clone'
 alias gtag='git tag -a -m'
 alias gtl='git tag -l -n1'
+
+# Audit with Goland the diff, based on:
+# git config --global diff.tool goland
+# git config --global difftool.goland.cmd '/Users/driott/.local/bin/goland diff --wait "$LOCAL" "$REMOTE"'
+# git config --global difftool.prompt false
+alias gdf='git difftool' 
 
 # Force push and quick commits
 alias fp='git push --force'
