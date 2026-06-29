@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Add a comment to a Jira ticket.
+#
+# Usage:
+#   jira-comment DDR-1234 "Fixed the flaky test"
+#   echo "Long comment" | jira-comment DDR-1234 -
+
+ticket="${1:?Usage: jira-comment <ticket-id> <body | ->}"
+body="${2:?Usage: jira-comment <ticket-id> <body | ->}"
+
+if [[ "$body" == "-" ]]; then
+  body=$(cat)
+fi
+
+acli jira workitem comment create --key "$ticket" --body "$body"

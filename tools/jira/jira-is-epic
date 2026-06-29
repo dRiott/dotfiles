@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Check if a Jira ticket is an Epic. Exits 0 if yes, 1 if no.
+# With --print, also outputs the issue type name.
+#
+# Usage:
+#   jira-is-epic DDR-1234 && echo "it's an epic"
+#   jira-is-epic DDR-1234 --print   # prints "Epic" or the actual type
+
+ticket="${1:?Usage: jira-is-epic <ticket-id> [--print]}"
+print_type=false
+[[ "${2:-}" == "--print" ]] && print_type=true
+
+issue_type=$(acli jira workitem view "$ticket" --json 2>/dev/null \
+  | jq -r '.fields.issuetype.name // empty')
+
+if $print_type; then
+  echo "$issue_type"
+fi
+
+[[ "$issue_type" == "Epic" ]]

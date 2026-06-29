@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Search Jira with JQL. Returns JSON.
+#
+# Usage:
+#   jira-search 'parent = DDR-8518 AND status = "To Do"'
+#   jira-search 'project = DDR AND assignee = currentUser()' --limit 20 --fields key,summary,status
+
+jql="${1:?Usage: jira-search '<JQL>' [--limit N] [--fields key,summary,status]}"
+shift
+
+limit=50
+fields="key,summary,status"
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --limit)  limit="$2"; shift 2 ;;
+    --fields) fields="$2"; shift 2 ;;
+    *) echo "Unknown option: $1" >&2; exit 1 ;;
+  esac
+done
+
+acli jira workitem search --jql "$jql" --limit "$limit" --fields "$fields" --json

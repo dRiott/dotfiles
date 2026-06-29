@@ -1,0 +1,22 @@
+#!/bin/bash
+set -euo pipefail
+
+# Move ticket(s) to a different parent (epic).
+#
+# Usage:
+#   jira-reparent DDR-1234 DDR-5678              # move one ticket
+#   jira-reparent DDR-1234,DDR-1235 DDR-5678     # move multiple tickets
+
+keys="${1:?Usage: jira-reparent <ticket-id>[,<ticket-id>...] <new-parent>}"
+parent="${2:?Usage: jira-reparent <ticket-id>[,<ticket-id>...] <new-parent>}"
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+IFS=',' read -ra tickets <<< "$keys"
+for ticket in "${tickets[@]}"; do
+  ticket=$(echo "$ticket" | xargs)  # trim whitespace
+  "$SCRIPT_DIR/jira-api" PUT "/rest/api/3/issue/$ticket" \
+    "{\"fields\":{\"parent\":{\"key\":\"$parent\"}}}" && \
+    echo "$ticket -> $parent" || \
+    echo "FAILED: $ticket" >&2
+done

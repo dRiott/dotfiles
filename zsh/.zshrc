@@ -21,6 +21,7 @@ typeset -U PATH  # Automatically remove duplicate entries
 path=(
     $HOME/.local/bin
     $HOME/bin
+    $XDG_CONFIG_HOME/tools/jira
     /opt/homebrew/bin
     $GOPATH_BIN
     $PYTHON_USER_BIN
@@ -66,7 +67,6 @@ source $ZSH/oh-my-zsh.sh
 # =============================================================================
 # Source Configuration Files
 # =============================================================================
-[ -f "$XDG_CONFIG_HOME/aliasrc.sh" ] && source "$XDG_CONFIG_HOME/aliasrc.sh"
 [ -f "$XDG_CONFIG_HOME/functionrc.sh" ] && source "$XDG_CONFIG_HOME/functionrc.sh"
 [ -f "$XDG_CONFIG_HOME/secrets.sh" ] && source "$XDG_CONFIG_HOME/secrets.sh"
 [ -f "$XDG_CONFIG_HOME/company.sh" ] && source "$XDG_CONFIG_HOME/company.sh"
@@ -79,17 +79,11 @@ source $ZSH/oh-my-zsh.sh
 # Kubectl autocomplete
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
 
-# NVM (Node Version Manager) - Lazy loaded for faster shell startup
+# NVM (Node Version Manager)
 export NVM_DIR="$HOME/.config/nvm"
-nvm() {
-  unfunction nvm node npm npx 2>/dev/null
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  nvm "$@"
-}
-node() { nvm; node "$@"; }
-npm() { nvm; npm "$@"; }
-npx() { nvm; npx "$@"; }
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+nvm use default --silent  # Ensure npm global bins are in PATH
 
 # Ghostty shell integration
 if [[ -n "$GHOSTTY_RESOURCES_DIR" ]]; then

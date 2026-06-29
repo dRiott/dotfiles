@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# View a Jira ticket's details as JSON.
+#
+# Usage:
+#   jira-view DDR-1234
+#   jira-view DDR-1234 --fields key,summary,status
+
+ticket="${1:?Usage: jira-view <ticket-id> [--fields key,summary,status]}"
+
+shift
+fields_flag=()
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --fields) fields_flag=(--fields "$2"); shift 2 ;;
+    *) echo "Unknown option: $1" >&2; exit 1 ;;
+  esac
+done
+
+acli jira workitem view "$ticket" --json ${fields_flag[@]+"${fields_flag[@]}"}

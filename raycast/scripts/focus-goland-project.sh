@@ -20,8 +20,8 @@ case "$alias" in
   c|cv|v) projectName="charts-values"            ;;
   an)     projectName="anomaly-and-triage"       ;;
   *)
-    echo "Unknown alias: $alias"
-    exit 1
+    # Use the provided argument as the project name directly
+    projectName="$alias"
     ;;
 esac
 
