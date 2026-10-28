@@ -11,4 +11,4 @@
 # @raycast.author You
 # @raycast.authorURL https://github.com/dRiott
 
-open -a "Brave Browser"
+open -a "Zen"

@@ -26,6 +26,7 @@ path=(
     $GOPATH_BIN
     $PYTHON_USER_BIN
     "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+    "$HOME/.tfenv/bin"
     $path
 )
 

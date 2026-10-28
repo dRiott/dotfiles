@@ -8,22 +8,50 @@
 # Optional parameters:
 # @raycast.argument1 { "type": "text", "placeholder": "Alias (d, an, ed...)", "optional": false }
 
-alias="$1"
+# Strip spaces and periods, e.g. "protos #71." -> "protos#71"
+alias="${1//[ .]/}"
 basePath="$HOME/code"
 
+# Split off a trailing "#123" PR suffix, if any
+prNumber=""
+openRepo=""
+if [[ "$alias" == \$* ]]; then
+  openRepo=1
+  alias="${alias#\$}"
+elif [[ "$alias" == *"#"* ]]; then
+  prNumber="${alias##*#}"
+  alias="${alias%%#*}"
+fi
+
 case "$alias" in
+  an)     projectName="anomaly-and-triage"       ;;
+  a|ad)   projectName="applications-definitions" ;;
+  c|cv|v) projectName="charts-values"            ;;
+  d|df)   projectName="dataflow"                 ;;
   ed)     projectName="environments-definitions" ;;
   et)     projectName="environments-templates"   ;;
-  d|df)   projectName="dataflow"                 ;;
-  a|ad)   projectName="applications-definitions" ;;
+  g)      projectName="groundcover"              ;;
   h|hc)   projectName="helm-charts"              ;;
-  c|cv|v) projectName="charts-values"            ;;
-  an)     projectName="anomaly-and-triage"       ;;
+  pi)     projectName="prod-infrastructure"      ;;
   *)
     # Use the provided argument as the project name directly
     projectName="$alias"
     ;;
 esac
+
+# A leading "$" opens the repo home page in the browser
+if [ -n "$openRepo" ]; then
+  open "https://github.com/CyberhavenInc/$projectName/"
+  echo "Opening $projectName repo..."
+  exit 0
+fi
+
+# If a PR number was supplied, open the PR in the browser and stop
+if [ -n "$prNumber" ]; then
+  open "https://github.com/CyberhavenInc/$projectName/pull/$prNumber"
+  echo "Opening $projectName PR #$prNumber..."
+  exit 0
+fi
 
 if [[ "$projectName" == "dataflow" || "$projectName" == "anomaly-and-triage" ]]; then
   appTarget="GoLand"

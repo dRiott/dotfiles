@@ -5,7 +5,7 @@
 # -----------------------------------------------------------------------------
 # Environment Variables
 # -----------------------------------------------------------------------------
-#export GOOGLE_CLOUD_PROJECT=ch-dev-ai-playground-cf39
+export GOOGLE_CLOUD_PROJECT=ch-dev-ai-playground-cf39
 #export VERTEX_LOCATION=us-east1
 #export VERTEXAI_PROJECT=es-scalability-test
 #export VERTEXAI_REGION=us-east1
@@ -30,9 +30,10 @@ alias ap="aider --model vertex_ai/gemini-2.5-pro"
 alias a="aider"
 alias kl="sh $HOME/code/shell/kl.sh"
 alias klf="sh $HOME/code/shell/klf.sh"
+alias th="treehouse"
+
 
 function argopw() {
-  kreds es-scalability-test $1
   kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d | pbcopy
 }
 
@@ -70,6 +71,30 @@ function pam() {
     --project="$project"
 }
 
+ghpatch() {
+  local url="$1"
+  if [[ -z "$url" ]]; then
+    echo "Usage: ghpatch <github-pr-url>" >&2
+    return 1
+  fi
+
+  # Extract repo name (5th segment) and PR number (7th segment) by splitting on '/'
+  local repo pr filename
+  repo=$(echo "$url" | cut -d'/' -f5)
+  pr=$(echo "$url" | cut -d'/' -f7)
+
+  # Strip any trailing query parameters or anchors if present (e.g. #issuecomment or ?w=1)
+  pr="${pr%%[^0-9]*}"
+
+  if [[ -n "$repo" && -n "$pr" ]]; then
+    filename="${repo}-${pr}.patch"
+    echo "Fetching diff for ${repo} PR #${pr}..."
+    gh pr diff "$url" > "$filename" && echo "Saved to ${filename}"
+  else
+    echo "Error: Could not parse repo name or PR number from URL." >&2
+    return 1
+  fi
+}
 # Runs go tests for packages with changed files relative to the master branch.
 #
 # This script is designed to be run from the root of the git repository
@@ -737,6 +762,19 @@ function backport() {
 # Kubernetes Functions
 # -----------------------------------------------------------------------------
 
+function kredsAll() {
+  TARGET_CUSTOMERS=(
+  "ggc" "hds" "ing" "irm" "pdt" "tpc" "c2f" "glt" "on4" "opl" "pps" "01m" "01u" "1p2" "1xp" "ath" "bw5" "d32" "lc7" "99l" "cc9" "g3h" "gaw" "hh9" "ibl" "kdd" "mrm" "r12" "rr2" "soc" "ta8" "tcd" "ux1" "ux2" "2op" "7sz" "99q" "ar2" "dcr" "eph" "hlg" "iby" "kdi" "kmv" "l3a" "lrt" "r0x" "rdi" "sx8" "tqh" "trt" "u8m" "wsb" "1mi" "tpb" "374" "apd" "ekg" "k12" "pl8" "qce" "0mm" "3xn" "afr" "jus" "kst" "is2" "9io" "6qw" "9nn" "gs7" "kr9" "mpg3" "018" "b1o" "61v" "pk4"
+  "w04" "yx2"
+  )
+  for target in "${TARGET_CUSTOMERS[@]}"; do
+    echo $target
+    kreds "$target"
+  done
+}
+
+
+
 function kreds() {
   # If only one argument is provided, treat it as the shortcut.
   # Example: "hzb" becomes "ch-prod-hzb" and "prod-hzb".
@@ -777,21 +815,21 @@ function kreds() {
     return 1
   fi
   
-  # --- 1. Define Known DNS Clusters ---
-  local dns_flag=""
-  local dns_clusters=("prod-dogfood" "stage-rc0" "stage-rc1" "stage-rc2" "stage-rc3" "stage-rc4" "stage-rc5" "stage-rc6" "stage-rc7" "stage-rc8" "prod-09i" "prod-0pw" "prod-12l" "prod-3hv" "prod-4mp" "prod-4ud" "prod-54k" "prod-7pg" "prod-99l" "prod-9io" "prod-9ms" "prod-prod" "prod-a3l" "prod-a4r" "prod-a7l" "prod-a87" "prod-a8h" "prod-a8r" "prod-acc" "prod-acs" "prod-adr" "prod-ait" "prod-alk" "prod-alm" "prod-ap1" "prod-arx" "prod-ash" "prod-ath" "prod-avy" "prod-b2z" "prod-bkc" "prod-c2f" "prod-c9n" "prod-cbr" "prod-cg2" "prod-cie" "prod-cnc" "prod-co7" "prod-coh" "prod-cr2" "prod-crs" "prod-cse" "prod-cy3" "prod-d5a" "prod-dc2" "prod-dd2" "prod-demo4" "prod-dlp" "prod-ds6" "prod-eago9" "prod-ee9" "prod-ej1" "prod-er3" "prod-ers" "prod-esg" "prod-fa1" "prod-ff2" "prod-ffl" "prod-flv" "prod-ftl" "prod-fwb" "prod-g3h" "prod-gaw" "prod-prod" "prod-gh7" "prod-gnf" "prod-gps" "prod-gs7" "prod-hhr" "prod-hj3" "prod-hlg" "prod-prod" "prod-i6d" "prod-ih9" "prod-im1" "prod-io0" "prod-ipt" "prod-irm" "prod-j1a" "prod-jh3" "prod-jhm" "prod-k09" "prod-k6l" "prod-key" "prod-kg3" "prod-ki2" "prod-kls" "prod-kr7" "prod-l0p" "prod-l9e" "prod-lp3" "prod-m8s" "prod-mm3" "prod-mn3" "prod-mpg" "prod-prod" "prod-mpp" "prod-mv2" "prod-n52" "prod-n7a" "prod-n8x" "prod-nls" "prod-oe3" "prod-op7" "prod-pen" "prod-pim" "prod-pl8" "prod-pl9" "prod-pv4" "prod-pyc" "prod-q38" "prod-qw2" "prod-r4v" "prod-r6x" "prod-rdt" "prod-re9" "prod-rks" "prod-rp2" "prod-rr2" "prod-rrd" "prod-s3f" "prod-s5a" "prod-sfl" "prod-smc" "prod-spx" "prod-ssb" "prod-sup" "prod-sv8" "prod-sx8" "prod-t3g" "prod-t7e" "prod-ta8" "prod-tcd" "prod-tp4" "prod-tqh" "prod-uf2" "prod-um7" "prod-ux1" "prod-ux2" "prod-ux3" "prod-ux4" "prod-v6a" "prod-vca" "prod-vcu" "prod-vep" "prod-vtt" "prod-wal23r" "prod-wk1" "prod-wlv" "prod-wsa" "prod-x23" "prod-xs9" "prod-xzq" "prod-yh2" "prod-yx2" "prod-27254bce" "prod-mx1" "dogfood-275714" "prod-tg8"
-)
+  # --- 1. Default to --dns-endpoint; allowlist clusters that must NOT use it ---
+  local dns_flag="--dns-endpoint"
+  local no_dns_clusters=(
+    # Add clusters here that require auth WITHOUT --dns-endpoint.
+  )
 
-  # Check if the current cluster is in the "known" list
-  for c in "${dns_clusters[@]}"; do
+  # Drop the flag if this cluster is in the no-dns allowlist
+  for c in "${no_dns_clusters[@]}"; do
     if [[ "$cluster_name" == "$c" ]]; then
-      dns_flag="--dns-endpoint"
+      dns_flag=""
       break
     fi
   done
 
   # --- 2. First Attempt ---
-  # We include $dns_flag (it will be empty for most clusters)
   echo "Attempting: gcloud container clusters get-credentials $cluster_name --zone $region --project $project_id $dns_flag"
   gcloud container clusters get-credentials "$cluster_name" \
     --zone "$region" \
@@ -799,17 +837,16 @@ function kreds() {
     $dns_flag
 
   # --- 3. Fallback Attempt ---
-  # If the first attempt failed (or the flag was missing and needed), try with the flag explicitly
-  if ! kubectl get namespace &>/dev/null; then
-    # Only retry if we haven't already tried the dns-endpoint
-    if [[ -z "$dns_flag" ]]; then
-      echo "Normal auth failed, retrying with --dns-endpoint..."
+  # Key off gcloud's own exit code, not kubectl (which checks the *current*
+  # context and can mask a failed get-credentials with a stale-but-valid one).
+  if [[ $? -ne 0 ]]; then
+    if [[ -n "$dns_flag" ]]; then
+      echo "--dns-endpoint auth failed, retrying without it..."
       gcloud container clusters get-credentials "$cluster_name" \
         --zone "$region" \
-        --project "$project_id" \
-        --dns-endpoint
+        --project "$project_id"
     else
-      echo "Auth failed even with --dns-endpoint. Please check your connection or permissions."
+      echo "Auth failed without --dns-endpoint. Please check your connection or permissions."
       return 1
     fi
   fi
@@ -833,6 +870,18 @@ function kversion() {
     return 1
   fi
   kubectl get deployment "$deployment_name" -o jsonpath='{.spec.template.spec.containers[*].image}{"\n"}'
+}
+
+function kinfo() {
+  local deployment_name=$1
+  if [[ -z "$deployment_name" ]]; then
+    echo "Usage: kinfo <deployment_name>"
+    return 1
+  fi
+
+  kubectl get deployment "$deployment_name" -o jsonpath='
+Image: {.spec.template.spec.containers[*].image}{"\n"}
+SLM Endpoint: {.spec.template.spec.containers[*].env[?(@.name=="SELF_HOSTED_SLM_ENDPOINT_URL")].value}{"\n"}'
 }
 
 # -----------------------------------------------------------------------------

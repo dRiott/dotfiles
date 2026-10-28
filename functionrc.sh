@@ -22,10 +22,8 @@ alias btRmPref="rm ~/Library/Preferences/com.apple.Bluetooth.plist"
 alias btRmHost="rm ~/Library/Preferences/com.apple.Bluetooh*"
 
 # Typo fixes
-alias cl="claude --model claude-opus-4-6"
-alias cld="claude --model claude-opus-4-6 --dangerously-skip-permissions"
-alias cld8="claude --model claude-opus-4-8 --dangerously-skip-permissions"
-alias cc="cld8"
+alias c8="claude --model claude-opus-4-8 --dangerously-skip-permissions"
+alias c="claude --dangerously-skip-permissions"
 alias cls="claude --model sonnet"
 alias clsd="claude --model sonnet --dangerously-skip-permissions"
 alias clobs="cd /Users/driott/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/CloudSync && claude"
