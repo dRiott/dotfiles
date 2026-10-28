@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# List child tickets of a Jira Epic/ticket. Returns JSON.
+#
+# Usage:
+#   jira-children DDR-1234
+#   jira-children DDR-1234 --status "To Do"
+#   jira-children DDR-1234 --fields key,summary,status,assignee
+#   jira-children DDR-1234 --exclude-done
+
+ticket="${1:?Usage: jira-children <ticket-id> [--status <status>] [--fields <fields>] [--exclude-done]}"
+shift
+
+status_filter=""
+fields="key,summary,status"
+exclude_done=false
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --status)       status_filter="$2"; shift 2 ;;
+    --fields)       fields="$2"; shift 2 ;;
+    --exclude-done) exclude_done=true; shift ;;
+    *) echo "Unknown option: $1" >&2; exit 1 ;;
+  esac
+done
+
+jql="parent = $ticket"
+if [[ -n "$status_filter" ]]; then
+  jql="$jql AND status = \"$status_filter\""
+elif $exclude_done; then
+  jql="$jql AND statusCategory != Done"
+fi
+
+acli jira workitem search --jql "$jql" --limit 100 --fields "$fields" --json

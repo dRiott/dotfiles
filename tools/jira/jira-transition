@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Transition a Jira ticket to a new status.
+#
+# Usage:
+#   jira-transition DDR-1234 "In Dev"
+#   jira-transition DDR-1234,DDR-1235 "In Review"
+
+keys="${1:?Usage: jira-transition <ticket-id>[,<ticket-id>...] <status>}"
+status="${2:?Usage: jira-transition <ticket-id>[,<ticket-id>...] <status>}"
+
+acli jira workitem transition --key "$keys" --status "$status" --yes

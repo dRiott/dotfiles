@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Assign a Jira ticket to a user.
+#
+# Usage:
+#   jira-assign DDR-1234                     # assign to self
+#   jira-assign DDR-1234 david.riott         # assign to specific user
+#   jira-assign DDR-1234 --unassign          # remove assignee
+
+ticket="${1:?Usage: jira-assign <ticket-id> [username | --unassign]}"
+assignee="${2:-}"
+
+if [[ "$assignee" == "--unassign" ]]; then
+  acli jira workitem assign -k "$ticket" --remove-assignee -y
+elif [[ -n "$assignee" ]]; then
+  acli jira workitem assign -k "$ticket" -a "$assignee" -y
+else
+  acli jira workitem assign -k "$ticket" -a "@me" -y
+fi

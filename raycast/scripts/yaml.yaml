@@ -1,0 +1,1195 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"batch/v1","kind":"Job","metadata":{"annotations":{"argocd.argoproj.io/hook":"PostSync","argocd.argoproj.io/hook-delete-policy":"BeforeHookCreation"},"generateName":"lineareplay-","labels":{"argocd.argoproj.io/instance":"debug-ai-analyst","run_id":"pvz-replay-2"},"name":"lineareplay--postsync-1742468821","namespace":"default"},"spec":{"backoffLimit":0,"template":{"spec":{"containers":[{"command":["/go/bin/lineareplay"],"env":[{"name":"ANALYST_LLM_SETTINGS_DEEP_DATASET__AI_OUTPUT_MAX_LEN","value":"4096"},{"name":"ANALYST_LLM_SETTINGS_DEEP_DATASET__CHARACTERS_PER_MESSAGE","value":"16384"},{"name":"ANALYST_LLM_SETTINGS_DEEP_DATASET__LLM_NAME","value":"claude-3-5-sonnet-v2@20241022"},{"name":"ANALYST_LLM_SETTINGS_DEEP_POLICY__AI_OUTPUT_MAX_LEN","value":"4096"},{"name":"ANALYST_LLM_SETTINGS_DEEP_POLICY__CHARACTERS_PER_MESSAGE","value":"16384"},{"name":"ANALYST_LLM_SETTINGS_DEEP_POLICY__LLM_NAME","value":"claude-3-5-sonnet-v2@20241022"},{"name":"ANALYST_LLM_SETTINGS_DEEP_PROVENANCE__AI_OUTPUT_MAX_LEN","value":"4096"},{"name":"ANALYST_LLM_SETTINGS_DEEP_PROVENANCE__CHARACTERS_PER_MESSAGE","value":"16384"},{"name":"ANALYST_LLM_SETTINGS_DEEP_PROVENANCE__LLM_NAME","value":"claude-3-5-sonnet-v2@20241022"},{"name":"ANALYST_LLM_SETTINGS_DEEP_SEVERITY__AI_OUTPUT_MAX_LEN","value":"4096"},{"name":"ANALYST_LLM_SETTINGS_DEEP_SEVERITY__CHARACTERS_PER_MESSAGE","value":"16384"},{"name":"ANALYST_LLM_SETTINGS_DEEP_SEVERITY__LLM_NAME","value":"claude-3-5-sonnet-v2@20241022"},{"name":"ANALYST_LLM_SETTINGS_DEEP_SUMMARIZATION__AI_OUTPUT_MAX_LEN","value":"4096"},{"name":"ANALYST_LLM_SETTINGS_DEEP_SUMMARIZATION__CHARACTERS_PER_MESSAGE","value":"16384"},{"name":"ANALYST_LLM_SETTINGS_DEEP_SUMMARIZATION__LLM_NAME","value":"claude-3-5-sonnet-v2@20241022"},{"name":"ANALYST_LLM_SETTINGS_DEEP_ZONE__AI_OUTPUT_MAX_LEN","value":"4096"},{"name":"ANALYST_LLM_SETTINGS_DEEP_ZONE__CHARACTERS_PER_MESSAGE","value":"16384"},{"name":"ANALYST_LLM_SETTINGS_DEEP_ZONE__LLM_NAME","value":"claude-3-5-sonnet-v2@20241022"},{"name":"ANALYST_LLM_SETTINGS_LIGHT_DATASET__AI_OUTPUT_MAX_LEN","value":"4096"},{"name":"ANALYST_LLM_SETTINGS_LIGHT_DATASET__CHARACTERS_PER_MESSAGE","value":"16384"},{"name":"ANALYST_LLM_SETTINGS_LIGHT_DATASET__LLM_NAME","value":"gemini-1.5-flash-002"},{"name":"ANALYST_LLM_SETTINGS_LIGHT_POLICY__AI_OUTPUT_MAX_LEN","value":"4096"},{"name":"ANALYST_LLM_SETTINGS_LIGHT_POLICY__CHARACTERS_PER_MESSAGE","value":"16384"},{"name":"ANALYST_LLM_SETTINGS_LIGHT_POLICY__LLM_NAME","value":"gemini-1.5-flash-002"},{"name":"ANALYST_LLM_SETTINGS_LIGHT_SEVERITY__AI_OUTPUT_MAX_LEN","value":"4096"},{"name":"ANALYST_LLM_SETTINGS_LIGHT_SEVERITY__CHARACTERS_PER_MESSAGE","value":"16384"},{"name":"ANALYST_LLM_SETTINGS_LIGHT_SEVERITY__LLM_NAME","value":"gemini-1.5-flash-002"},{"name":"ANALYST_LLM_SETTINGS_LIGHT_SUMMARIZATION__AI_OUTPUT_MAX_LEN","value":"4096"},{"name":"ANALYST_LLM_SETTINGS_LIGHT_SUMMARIZATION__CHARACTERS_PER_MESSAGE","value":"16384"},{"name":"ANALYST_LLM_SETTINGS_LIGHT_SUMMARIZATION__LLM_NAME","value":"gemini-1.5-flash-002"},{"name":"ANOMALY_MIN_SEVERITY","value":"1"},{"name":"BATCH_EXECUTION_INTERVAL","value":"1"},{"name":"BATCH_EXECUTION_MAX_WORKERS","value":"8"},{"name":"DEEP_MIN_SEVERITY","value":"1"},{"name":"DEEP_SAMPLE_FRACTION","value":"1.0"},{"name":"EVENTDATA_API__TIMEOUT","value":"1"},{"name":"FILTER_ON_EVENT_AGE","value":"false"},{"name":"GET_INSIGHTS","value":"true"},{"name":"GET_ZONE_INSIGHTS","value":"true"},{"name":"HEALTH_PORT","value":"8080"},{"name":"HEALTH_TIMEOUT","value":"240"},{"name":"METRICS_PORT","value":"8000"},{"name":"ONLINE_RUN_ID","value":"online"},{"name":"OTEL_EXPORTER_OTLP_ENDPOINT","value":"http://otel:4317/"},{"name":"OTEL_LOGS_EXPORTER","value":"none"},{"name":"OTEL_METRICS_EXPORTER","value":"none"},{"name":"OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED","value":"false"},{"name":"OTEL_SERVICE_NAME","value":"analyst-model"},{"name":"OTEL_TRACES_EXPORTER","value":"otlp"},{"name":"PROCEED_MIN_DATASET_SENSITIVITY","value":"1"},{"name":"PROCEED_MIN_FLOW_SEVERITY","value":"1"},{"name":"PROCEED_MIN_POLICY_SEVERITY","value":"1"},{"name":"PUBLISH_WITHOUT_CONTENT","value":"true"},{"name":"PUBLISH_WITH_HIGH_CONFIDENCE","value":"true"},{"name":"RETRY_ID","value":"0"},{"name":"RUN_ID","value":"pvz-replay-2"},{"name":"RUN_MODE","value":"http"},{"name":"SKIP_INSIGHTS","value":"true"},{"name":"USE_PROVENANCE_ZONE","value":"true"},{"name":"OUTPUT_URL","value":"http://debug-ai-analyst:8080/predict"},{"name":"EDGE_IDS","value":""},{"name":"INCIDENTS_IDS","value":""},{"name":"INCIDENTS_LIMIT","value":"0"},{"name":"INCIDENTS_TIME_RANGE_START","value":""},{"name":"INCIDENTS_TIME_RANGE_END","value":""},{"name":"INCIDENTS_TIME_FIELD","value":"event_time"},{"name":"CONFIG_BUCKET","value":"ai-replay-config-dev"},{"name":"CLUSTER_PROJECT","value":"es-scalability-test"},{"name":"DEBUG","value":"true"},{"name":"DEEPEVAL_SERVICE_URL","value":"http://deepeval-service:8080/evaluate"},{"name":"BQ_EDGES_TABLE","valueFrom":{"configMapKeyRef":{"key":"bigquery-edges-table","name":"internal-api-configuration"}}},{"name":"HOST_IP","valueFrom":{"fieldRef":{"apiVersion":"v1","fieldPath":"status.hostIP"}}},{"name":"SPANNER_URI","valueFrom":{"configMapKeyRef":{"key":"spanner-uri","name":"internal-api-configuration"}}},{"name":"BT_PROJECT","valueFrom":{"configMapKeyRef":{"key":"bigtable-project","name":"internal-api-configuration"}}},{"name":"BT_INSTANCE_ID","valueFrom":{"configMapKeyRef":{"key":"bigtable-instance-id","name":"internal-api-configuration"}}},{"name":"BT_USERS_TABLE","valueFrom":{"configMapKeyRef":{"key":"bigtable-users-table","name":"internal-api-configuration"}}},{"name":"BT_TABLE","valueFrom":{"configMapKeyRef":{"key":"bigtable-edges-table","name":"internal-api-configuration"}}},{"name":"BT_DBEDGES_TABLE","valueFrom":{"configMapKeyRef":{"key":"bigtable-dbedges-table","name":"internal-api-configuration"}}},{"name":"BT_RELATIONS_TABLE","valueFrom":{"configMapKeyRef":{"key":"bigtable-relations-table","name":"internal-api-configuration"}}},{"name":"DATAFLOW_RETENTION_DAYS","valueFrom":{"configMapKeyRef":{"key":"dataflow-retention-days","name":"internal-api-configuration"}}},{"name":"BQ_PROJECT","valueFrom":{"configMapKeyRef":{"key":"bigquery-project","name":"internal-api-configuration"}}},{"name":"BQ_DATASET","valueFrom":{"configMapKeyRef":{"key":"bigquery-dataset","name":"internal-api-configuration"}}}],"image":"us-docker.pkg.dev/cyberhaven-cd/dataflow/lineareplay:platform-linea-v1.0.12-test-5dc6efc1","name":"lineareplay","resources":{"requests":{"cpu":"100m","memory":"20Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"runAsNonRoot":true,"runAsUser":1000},"volumeMounts":[{"mountPath":"/etc/secrets","name":"secrets"}]}],"initContainers":[{"args":["pod","-lapp.kubernetes.io/instance=debug-ai-analyst,app.kubernetes.io/name=ai-analyst"],"image":"us-docker.pkg.dev/cyberhaven-cd/dataflow/k8s-wait-for:v25.04.90-3a5b78e9","imagePullPolicy":"Always","name":"debug-analyst-wait","resources":{"requests":{"cpu":"10m"}}},{"env":[{"name":"RATELIMIT_SERVICE_URL","value":""},{"name":"BACKEND_HOSTNAME","value":"labs2.cyberhaven.dev"},{"name":"ELASTIC_HOSTNAME","value":"https://elasticsearch-master:9200"},{"name":"EXTERNAL_STORAGE_HOSTNAME","value":"http://external-storage-external-storage:8080"},{"name":"ES_CREDENTIALS","value":"/etc/secrets/es-credentials"},{"name":"ENDPOINT_ACTIONS_HOSTNAME","value":"http://webserver:8080"},{"name":"USERS_AUTH_HOSTNAME","value":"http://lightbeam-users-auth:8080"},{"name":"MAILER_HOSTNAME","value":"http://mailer:8080"},{"name":"GCP_PREFIX","valueFrom":{"configMapKeyRef":{"key":"gcp-prefix","name":"internal-api-configuration"}}},{"name":"EDGES_TABLE","valueFrom":{"configMapKeyRef":{"key":"bigquery-edges-table","name":"internal-api-configuration"}}},{"name":"EDGES_INDEX","valueFrom":{"configMapKeyRef":{"key":"bigquery-edges-index","name":"internal-api-configuration"}}},{"name":"BIGQUERY_PROJECT","valueFrom":{"configMapKeyRef":{"key":"bigquery-project","name":"internal-api-configuration"}}},{"name":"BIGQUERY_DATASET","valueFrom":{"configMapKeyRef":{"key":"bigquery-dataset","name":"internal-api-configuration"}}},{"name":"BIGQUERY_USERS_TABLE","valueFrom":{"configMapKeyRef":{"key":"bigquery-users-table","name":"internal-api-configuration"}}},{"name":"BIGQUERY_USER_MAPPINGS_TABLE","valueFrom":{"configMapKeyRef":{"key":"bigquery-user-mappings-table","name":"internal-api-configuration"}}},{"name":"BIGQUERY_EVENT_ACTIONS_TABLE","valueFrom":{"configMapKeyRef":{"key":"bigquery-event-actions-table","name":"internal-api-configuration"}}},{"name":"GIT_TAG","value":""},{"name":"GIT_VERSION","value":""},{"name":"CUSTOMER_NAME","valueFrom":{"configMapKeyRef":{"key":"customer-name","name":"internal-api-configuration"}}},{"name":"CUSTOMER_CODE","valueFrom":{"configMapKeyRef":{"key":"customer-code","name":"internal-api-configuration"}}},{"name":"LAUNCH_DARKLY_SDK_KEY","valueFrom":{"secretKeyRef":{"key":"sdkKey","name":"vault-launch-darkly"}}},{"name":"PROJECT_ID","value":"$(BIGTABLE_PROJECT)"},{"name":"HOST_IP","valueFrom":{"fieldRef":{"fieldPath":"status.hostIP"}}},{"name":"SERVICE_NAME","value":"internal-api"},{"name":"INSTANCE_ID","valueFrom":{"fieldRef":{"fieldPath":"metadata.name"}}},{"name":"LISTS_BUCKET","valueFrom":{"configMapKeyRef":{"key":"lists-bucket","name":"internal-api-configuration"}}},{"name":"SPANNER_ENABLED","valueFrom":{"configMapKeyRef":{"key":"spanner-enabled","name":"internal-api-configuration"}}},{"name":"SPANNER_URI","valueFrom":{"configMapKeyRef":{"key":"spanner-uri","name":"internal-api-configuration"}}},{"name":"BIGTABLE_PROJECT","valueFrom":{"configMapKeyRef":{"key":"bigtable-project","name":"internal-api-configuration"}}},{"name":"BIGTABLE_INSTANCE_ID","valueFrom":{"configMapKeyRef":{"key":"bigtable-instance-id","name":"internal-api-configuration"}}},{"name":"BIGTABLE_USERS_TABLE","valueFrom":{"configMapKeyRef":{"key":"bigtable-users-table","name":"internal-api-configuration"}}},{"name":"BIGTABLE_EDGES_TABLE","valueFrom":{"configMapKeyRef":{"key":"bigtable-edges-table","name":"internal-api-configuration"}}},{"name":"BIGTABLE_DBEDGES_TABLE","valueFrom":{"configMapKeyRef":{"key":"bigtable-dbedges-table","name":"internal-api-configuration"}}},{"name":"BIGTABLE_RELATIONS_TABLE","valueFrom":{"configMapKeyRef":{"key":"bigtable-relations-table","name":"internal-api-configuration"}}},{"name":"DATAFLOW_RETENTION_DAYS","valueFrom":{"configMapKeyRef":{"key":"dataflow-retention-days","name":"internal-api-configuration"}}},{"name":"PGUSER","valueFrom":{"secretKeyRef":{"key":"postgresqlRootUser","name":"vault-postgresql-root-user"}}},{"name":"PGPASS","valueFrom":{"secretKeyRef":{"key":"postgresqlRootPassword","name":"vault-postgresql-root-password"}}},{"name":"PGDB","value":"postgres"},{"name":"PGCONN","value":"postgres://$(PGUSER):$(PGPASS)@lightbeam-stolon-proxy:5432/$(PGDB)"}],"image":"us-docker.pkg.dev/cyberhaven-cd/dataflow/internal-api:platform-linea-v1.0.12-test-5dc6efc1","imagePullPolicy":"IfNotPresent","livenessProbe":{"httpGet":{"path":"/v1/health","port":8080},"periodSeconds":10,"timeoutSeconds":1},"name":"debug-internal-api","ports":[{"containerPort":8080,"name":"http","protocol":"TCP"}],"readinessProbe":{"httpGet":{"path":"/v1/health","port":8080},"initialDelaySeconds":5,"periodSeconds":10},"resources":{"requests":{"cpu":"10m","memory":"50Mi"}},"restartPolicy":"Always","securityContext":{"allowPrivilegeEscalation":false,"runAsNonRoot":true,"runAsUser":1000},"terminationMessagePolicy":"FallbackToLogsOnError","volumeMounts":[{"mountPath":"/etc/secrets","name":"secrets"}]}],"restartPolicy":"Never","serviceAccountName":"internal-api","volumes":[{"name":"secrets","secret":{"items":[{"key":"es-credentials","path":"es-credentials"}],"secretName":"vault-es-credentials"}}]}}}}
+  creationTimestamp: "2025-03-20T11:07:25Z"
+  generateName: lineareplay-
+  generation: 1
+  labels:
+    argocd.argoproj.io/instance: debug-ai-analyst
+    run_id: pvz-replay-2
+  managedFields:
+  - apiVersion: batch/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:argocd.argoproj.io/hook: {}
+          f:argocd.argoproj.io/hook-delete-policy: {}
+          f:kubectl.kubernetes.io/last-applied-configuration: {}
+        f:generateName: {}
+        f:labels:
+          .: {}
+          f:argocd.argoproj.io/instance: {}
+          f:run_id: {}
+      f:spec:
+        f:backoffLimit: {}
+        f:completionMode: {}
+        f:completions: {}
+        f:manualSelector: {}
+        f:parallelism: {}
+        f:podReplacementPolicy: {}
+        f:suspend: {}
+        f:template:
+          f:spec:
+            f:containers:
+              k:{"name":"lineareplay"}:
+                .: {}
+                f:command: {}
+                f:env:
+                  .: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_DATASET__AI_OUTPUT_MAX_LEN"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_DATASET__CHARACTERS_PER_MESSAGE"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_DATASET__LLM_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_POLICY__AI_OUTPUT_MAX_LEN"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_POLICY__CHARACTERS_PER_MESSAGE"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_POLICY__LLM_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_PROVENANCE__AI_OUTPUT_MAX_LEN"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_PROVENANCE__CHARACTERS_PER_MESSAGE"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_PROVENANCE__LLM_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_SEVERITY__AI_OUTPUT_MAX_LEN"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_SEVERITY__CHARACTERS_PER_MESSAGE"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_SEVERITY__LLM_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_SUMMARIZATION__AI_OUTPUT_MAX_LEN"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_SUMMARIZATION__CHARACTERS_PER_MESSAGE"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_SUMMARIZATION__LLM_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_ZONE__AI_OUTPUT_MAX_LEN"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_ZONE__CHARACTERS_PER_MESSAGE"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_DEEP_ZONE__LLM_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_LIGHT_DATASET__AI_OUTPUT_MAX_LEN"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_LIGHT_DATASET__CHARACTERS_PER_MESSAGE"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_LIGHT_DATASET__LLM_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_LIGHT_POLICY__AI_OUTPUT_MAX_LEN"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_LIGHT_POLICY__CHARACTERS_PER_MESSAGE"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_LIGHT_POLICY__LLM_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_LIGHT_SEVERITY__AI_OUTPUT_MAX_LEN"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_LIGHT_SEVERITY__CHARACTERS_PER_MESSAGE"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_LIGHT_SEVERITY__LLM_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_LIGHT_SUMMARIZATION__AI_OUTPUT_MAX_LEN"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_LIGHT_SUMMARIZATION__CHARACTERS_PER_MESSAGE"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANALYST_LLM_SETTINGS_LIGHT_SUMMARIZATION__LLM_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ANOMALY_MIN_SEVERITY"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"BATCH_EXECUTION_INTERVAL"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"BATCH_EXECUTION_MAX_WORKERS"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"BQ_DATASET"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BQ_EDGES_TABLE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BQ_PROJECT"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BT_DBEDGES_TABLE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BT_INSTANCE_ID"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BT_PROJECT"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BT_RELATIONS_TABLE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BT_TABLE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BT_USERS_TABLE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"CLUSTER_PROJECT"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"CONFIG_BUCKET"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"DATAFLOW_RETENTION_DAYS"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"DEBUG"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"DEEP_MIN_SEVERITY"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"DEEP_SAMPLE_FRACTION"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"DEEPEVAL_SERVICE_URL"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"EDGE_IDS"}:
+                    .: {}
+                    f:name: {}
+                  k:{"name":"EVENTDATA_API__TIMEOUT"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"FILTER_ON_EVENT_AGE"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"GET_INSIGHTS"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"GET_ZONE_INSIGHTS"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"HEALTH_PORT"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"HEALTH_TIMEOUT"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"HOST_IP"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:fieldRef: {}
+                  k:{"name":"INCIDENTS_IDS"}:
+                    .: {}
+                    f:name: {}
+                  k:{"name":"INCIDENTS_LIMIT"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"INCIDENTS_TIME_FIELD"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"INCIDENTS_TIME_RANGE_END"}:
+                    .: {}
+                    f:name: {}
+                  k:{"name":"INCIDENTS_TIME_RANGE_START"}:
+                    .: {}
+                    f:name: {}
+                  k:{"name":"METRICS_PORT"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ONLINE_RUN_ID"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"OTEL_EXPORTER_OTLP_ENDPOINT"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"OTEL_LOGS_EXPORTER"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"OTEL_METRICS_EXPORTER"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"OTEL_SERVICE_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"OTEL_TRACES_EXPORTER"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"OUTPUT_URL"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"PROCEED_MIN_DATASET_SENSITIVITY"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"PROCEED_MIN_FLOW_SEVERITY"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"PROCEED_MIN_POLICY_SEVERITY"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"PUBLISH_WITH_HIGH_CONFIDENCE"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"PUBLISH_WITHOUT_CONTENT"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"RETRY_ID"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"RUN_ID"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"RUN_MODE"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"SKIP_INSIGHTS"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"SPANNER_URI"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"USE_PROVENANCE_ZONE"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                f:image: {}
+                f:imagePullPolicy: {}
+                f:name: {}
+                f:resources:
+                  .: {}
+                  f:requests:
+                    .: {}
+                    f:cpu: {}
+                    f:memory: {}
+                f:securityContext:
+                  .: {}
+                  f:allowPrivilegeEscalation: {}
+                  f:runAsNonRoot: {}
+                  f:runAsUser: {}
+                f:terminationMessagePath: {}
+                f:terminationMessagePolicy: {}
+                f:volumeMounts:
+                  .: {}
+                  k:{"mountPath":"/etc/secrets"}:
+                    .: {}
+                    f:mountPath: {}
+                    f:name: {}
+            f:dnsPolicy: {}
+            f:initContainers:
+              .: {}
+              k:{"name":"debug-analyst-wait"}:
+                .: {}
+                f:args: {}
+                f:image: {}
+                f:imagePullPolicy: {}
+                f:name: {}
+                f:resources:
+                  .: {}
+                  f:requests:
+                    .: {}
+                    f:cpu: {}
+                f:terminationMessagePath: {}
+                f:terminationMessagePolicy: {}
+              k:{"name":"debug-internal-api"}:
+                .: {}
+                f:env:
+                  .: {}
+                  k:{"name":"BACKEND_HOSTNAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"BIGQUERY_DATASET"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BIGQUERY_EVENT_ACTIONS_TABLE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BIGQUERY_PROJECT"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BIGQUERY_USER_MAPPINGS_TABLE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BIGQUERY_USERS_TABLE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BIGTABLE_DBEDGES_TABLE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BIGTABLE_EDGES_TABLE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BIGTABLE_INSTANCE_ID"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BIGTABLE_PROJECT"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BIGTABLE_RELATIONS_TABLE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BIGTABLE_USERS_TABLE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"CUSTOMER_CODE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"CUSTOMER_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"DATAFLOW_RETENTION_DAYS"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"EDGES_INDEX"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"EDGES_TABLE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"ELASTIC_HOSTNAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ENDPOINT_ACTIONS_HOSTNAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"ES_CREDENTIALS"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"EXTERNAL_STORAGE_HOSTNAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"GCP_PREFIX"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"GIT_TAG"}:
+                    .: {}
+                    f:name: {}
+                  k:{"name":"GIT_VERSION"}:
+                    .: {}
+                    f:name: {}
+                  k:{"name":"HOST_IP"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:fieldRef: {}
+                  k:{"name":"INSTANCE_ID"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:fieldRef: {}
+                  k:{"name":"LAUNCH_DARKLY_SDK_KEY"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:secretKeyRef: {}
+                  k:{"name":"LISTS_BUCKET"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"MAILER_HOSTNAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"PGCONN"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"PGDB"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"PGPASS"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:secretKeyRef: {}
+                  k:{"name":"PGUSER"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:secretKeyRef: {}
+                  k:{"name":"PROJECT_ID"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"RATELIMIT_SERVICE_URL"}:
+                    .: {}
+                    f:name: {}
+                  k:{"name":"SERVICE_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"SPANNER_ENABLED"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"SPANNER_URI"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"USERS_AUTH_HOSTNAME"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                f:image: {}
+                f:imagePullPolicy: {}
+                f:livenessProbe:
+                  .: {}
+                  f:failureThreshold: {}
+                  f:httpGet:
+                    .: {}
+                    f:path: {}
+                    f:port: {}
+                    f:scheme: {}
+                  f:periodSeconds: {}
+                  f:successThreshold: {}
+                  f:timeoutSeconds: {}
+                f:name: {}
+                f:ports:
+                  .: {}
+                  k:{"containerPort":8080,"protocol":"TCP"}:
+                    .: {}
+                    f:containerPort: {}
+                    f:name: {}
+                    f:protocol: {}
+                f:readinessProbe:
+                  .: {}
+                  f:failureThreshold: {}
+                  f:httpGet:
+                    .: {}
+                    f:path: {}
+                    f:port: {}
+                    f:scheme: {}
+                  f:initialDelaySeconds: {}
+                  f:periodSeconds: {}
+                  f:successThreshold: {}
+                  f:timeoutSeconds: {}
+                f:resources:
+                  .: {}
+                  f:requests:
+                    .: {}
+                    f:cpu: {}
+                    f:memory: {}
+                f:restartPolicy: {}
+                f:securityContext:
+                  .: {}
+                  f:allowPrivilegeEscalation: {}
+                  f:runAsNonRoot: {}
+                  f:runAsUser: {}
+                f:terminationMessagePath: {}
+                f:terminationMessagePolicy: {}
+                f:volumeMounts:
+                  .: {}
+                  k:{"mountPath":"/etc/secrets"}:
+                    .: {}
+                    f:mountPath: {}
+                    f:name: {}
+            f:restartPolicy: {}
+            f:schedulerName: {}
+            f:securityContext: {}
+            f:serviceAccount: {}
+            f:serviceAccountName: {}
+            f:terminationGracePeriodSeconds: {}
+            f:volumes:
+              .: {}
+              k:{"name":"secrets"}:
+                .: {}
+                f:name: {}
+                f:secret:
+                  .: {}
+                  f:defaultMode: {}
+                  f:items: {}
+                  f:secretName: {}
+    manager: argocd-controller
+    operation: Update
+    time: "2025-03-20T11:07:25Z"
+  - apiVersion: batch/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:completionTime: {}
+        f:conditions: {}
+        f:ready: {}
+        f:startTime: {}
+        f:succeeded: {}
+        f:terminating: {}
+        f:uncountedTerminatedPods: {}
+    manager: kube-controller-manager
+    operation: Update
+    subresource: status
+    time: "2025-03-20T11:15:54Z"
+  name: lineareplay--postsync-1742468821
+  namespace: default
+  resourceVersion: "374453006"
+  uid: 6238004a-f69d-4e06-bac8-420133b5d605
+spec:
+  backoffLimit: 0
+  completionMode: NonIndexed
+  completions: 1
+  manualSelector: false
+  parallelism: 1
+  podReplacementPolicy: TerminatingOrFailed
+  selector:
+    matchLabels:
+      batch.kubernetes.io/controller-uid: 6238004a-f69d-4e06-bac8-420133b5d605
+  suspend: false
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        batch.kubernetes.io/controller-uid: 6238004a-f69d-4e06-bac8-420133b5d605
+        batch.kubernetes.io/job-name: lineareplay--postsync-1742468821
+        controller-uid: 6238004a-f69d-4e06-bac8-420133b5d605
+        job-name: lineareplay--postsync-1742468821
+    spec:
+      containers:
+      - command:
+        - /go/bin/lineareplay
+        env:
+        - name: ANALYST_LLM_SETTINGS_DEEP_DATASET__AI_OUTPUT_MAX_LEN
+          value: "4096"
+        - name: ANALYST_LLM_SETTINGS_DEEP_DATASET__CHARACTERS_PER_MESSAGE
+          value: "16384"
+        - name: ANALYST_LLM_SETTINGS_DEEP_DATASET__LLM_NAME
+          value: claude-3-5-sonnet-v2@20241022
+        - name: ANALYST_LLM_SETTINGS_DEEP_POLICY__AI_OUTPUT_MAX_LEN
+          value: "4096"
+        - name: ANALYST_LLM_SETTINGS_DEEP_POLICY__CHARACTERS_PER_MESSAGE
+          value: "16384"
+        - name: ANALYST_LLM_SETTINGS_DEEP_POLICY__LLM_NAME
+          value: claude-3-5-sonnet-v2@20241022
+        - name: ANALYST_LLM_SETTINGS_DEEP_PROVENANCE__AI_OUTPUT_MAX_LEN
+          value: "4096"
+        - name: ANALYST_LLM_SETTINGS_DEEP_PROVENANCE__CHARACTERS_PER_MESSAGE
+          value: "16384"
+        - name: ANALYST_LLM_SETTINGS_DEEP_PROVENANCE__LLM_NAME
+          value: claude-3-5-sonnet-v2@20241022
+        - name: ANALYST_LLM_SETTINGS_DEEP_SEVERITY__AI_OUTPUT_MAX_LEN
+          value: "4096"
+        - name: ANALYST_LLM_SETTINGS_DEEP_SEVERITY__CHARACTERS_PER_MESSAGE
+          value: "16384"
+        - name: ANALYST_LLM_SETTINGS_DEEP_SEVERITY__LLM_NAME
+          value: claude-3-5-sonnet-v2@20241022
+        - name: ANALYST_LLM_SETTINGS_DEEP_SUMMARIZATION__AI_OUTPUT_MAX_LEN
+          value: "4096"
+        - name: ANALYST_LLM_SETTINGS_DEEP_SUMMARIZATION__CHARACTERS_PER_MESSAGE
+          value: "16384"
+        - name: ANALYST_LLM_SETTINGS_DEEP_SUMMARIZATION__LLM_NAME
+          value: claude-3-5-sonnet-v2@20241022
+        - name: ANALYST_LLM_SETTINGS_DEEP_ZONE__AI_OUTPUT_MAX_LEN
+          value: "4096"
+        - name: ANALYST_LLM_SETTINGS_DEEP_ZONE__CHARACTERS_PER_MESSAGE
+          value: "16384"
+        - name: ANALYST_LLM_SETTINGS_DEEP_ZONE__LLM_NAME
+          value: claude-3-5-sonnet-v2@20241022
+        - name: ANALYST_LLM_SETTINGS_LIGHT_DATASET__AI_OUTPUT_MAX_LEN
+          value: "4096"
+        - name: ANALYST_LLM_SETTINGS_LIGHT_DATASET__CHARACTERS_PER_MESSAGE
+          value: "16384"
+        - name: ANALYST_LLM_SETTINGS_LIGHT_DATASET__LLM_NAME
+          value: gemini-1.5-flash-002
+        - name: ANALYST_LLM_SETTINGS_LIGHT_POLICY__AI_OUTPUT_MAX_LEN
+          value: "4096"
+        - name: ANALYST_LLM_SETTINGS_LIGHT_POLICY__CHARACTERS_PER_MESSAGE
+          value: "16384"
+        - name: ANALYST_LLM_SETTINGS_LIGHT_POLICY__LLM_NAME
+          value: gemini-1.5-flash-002
+        - name: ANALYST_LLM_SETTINGS_LIGHT_SEVERITY__AI_OUTPUT_MAX_LEN
+          value: "4096"
+        - name: ANALYST_LLM_SETTINGS_LIGHT_SEVERITY__CHARACTERS_PER_MESSAGE
+          value: "16384"
+        - name: ANALYST_LLM_SETTINGS_LIGHT_SEVERITY__LLM_NAME
+          value: gemini-1.5-flash-002
+        - name: ANALYST_LLM_SETTINGS_LIGHT_SUMMARIZATION__AI_OUTPUT_MAX_LEN
+          value: "4096"
+        - name: ANALYST_LLM_SETTINGS_LIGHT_SUMMARIZATION__CHARACTERS_PER_MESSAGE
+          value: "16384"
+        - name: ANALYST_LLM_SETTINGS_LIGHT_SUMMARIZATION__LLM_NAME
+          value: gemini-1.5-flash-002
+        - name: ANOMALY_MIN_SEVERITY
+          value: "1"
+        - name: BATCH_EXECUTION_INTERVAL
+          value: "1"
+        - name: BATCH_EXECUTION_MAX_WORKERS
+          value: "8"
+        - name: DEEP_MIN_SEVERITY
+          value: "1"
+        - name: DEEP_SAMPLE_FRACTION
+          value: "1.0"
+        - name: EVENTDATA_API__TIMEOUT
+          value: "1"
+        - name: FILTER_ON_EVENT_AGE
+          value: "false"
+        - name: GET_INSIGHTS
+          value: "true"
+        - name: GET_ZONE_INSIGHTS
+          value: "true"
+        - name: HEALTH_PORT
+          value: "8080"
+        - name: HEALTH_TIMEOUT
+          value: "240"
+        - name: METRICS_PORT
+          value: "8000"
+        - name: ONLINE_RUN_ID
+          value: online
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: http://otel:4317/
+        - name: OTEL_LOGS_EXPORTER
+          value: none
+        - name: OTEL_METRICS_EXPORTER
+          value: none
+        - name: OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED
+          value: "false"
+        - name: OTEL_SERVICE_NAME
+          value: analyst-model
+        - name: OTEL_TRACES_EXPORTER
+          value: otlp
+        - name: PROCEED_MIN_DATASET_SENSITIVITY
+          value: "1"
+        - name: PROCEED_MIN_FLOW_SEVERITY
+          value: "1"
+        - name: PROCEED_MIN_POLICY_SEVERITY
+          value: "1"
+        - name: PUBLISH_WITHOUT_CONTENT
+          value: "true"
+        - name: PUBLISH_WITH_HIGH_CONFIDENCE
+          value: "true"
+        - name: RETRY_ID
+          value: "0"
+        - name: RUN_ID
+          value: pvz-replay-2
+        - name: RUN_MODE
+          value: http
+        - name: SKIP_INSIGHTS
+          value: "true"
+        - name: USE_PROVENANCE_ZONE
+          value: "true"
+        - name: OUTPUT_URL
+          value: http://debug-ai-analyst:8080/predict
+        - name: EDGE_IDS
+        - name: INCIDENTS_IDS
+        - name: INCIDENTS_LIMIT
+          value: "0"
+        - name: INCIDENTS_TIME_RANGE_START
+        - name: INCIDENTS_TIME_RANGE_END
+        - name: INCIDENTS_TIME_FIELD
+          value: event_time
+        - name: CONFIG_BUCKET
+          value: ai-replay-config-dev
+        - name: CLUSTER_PROJECT
+          value: es-scalability-test
+        - name: DEBUG
+          value: "true"
+        - name: DEEPEVAL_SERVICE_URL
+          value: http://deepeval-service:8080/evaluate
+        - name: BQ_EDGES_TABLE
+          valueFrom:
+            configMapKeyRef:
+              key: bigquery-edges-table
+              name: internal-api-configuration
+        - name: HOST_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.hostIP
+        - name: SPANNER_URI
+          valueFrom:
+            configMapKeyRef:
+              key: spanner-uri
+              name: internal-api-configuration
+        - name: BT_PROJECT
+          valueFrom:
+            configMapKeyRef:
+              key: bigtable-project
+              name: internal-api-configuration
+        - name: BT_INSTANCE_ID
+          valueFrom:
+            configMapKeyRef:
+              key: bigtable-instance-id
+              name: internal-api-configuration
+        - name: BT_USERS_TABLE
+          valueFrom:
+            configMapKeyRef:
+              key: bigtable-users-table
+              name: internal-api-configuration
+        - name: BT_TABLE
+          valueFrom:
+            configMapKeyRef:
+              key: bigtable-edges-table
+              name: internal-api-configuration
+        - name: BT_DBEDGES_TABLE
+          valueFrom:
+            configMapKeyRef:
+              key: bigtable-dbedges-table
+              name: internal-api-configuration
+        - name: BT_RELATIONS_TABLE
+          valueFrom:
+            configMapKeyRef:
+              key: bigtable-relations-table
+              name: internal-api-configuration
+        - name: DATAFLOW_RETENTION_DAYS
+          valueFrom:
+            configMapKeyRef:
+              key: dataflow-retention-days
+              name: internal-api-configuration
+        - name: BQ_PROJECT
+          valueFrom:
+            configMapKeyRef:
+              key: bigquery-project
+              name: internal-api-configuration
+        - name: BQ_DATASET
+          valueFrom:
+            configMapKeyRef:
+              key: bigquery-dataset
+              name: internal-api-configuration
+        image: us-docker.pkg.dev/cyberhaven-cd/dataflow/lineareplay:platform-linea-v1.0.12-test-5dc6efc1
+        imagePullPolicy: IfNotPresent
+        name: lineareplay
+        resources:
+          requests:
+            cpu: 100m
+            memory: 20Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 1000
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/secrets
+          name: secrets
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - args:
+        - pod
+        - -lapp.kubernetes.io/instance=debug-ai-analyst,app.kubernetes.io/name=ai-analyst
+        image: us-docker.pkg.dev/cyberhaven-cd/dataflow/k8s-wait-for:v25.04.90-3a5b78e9
+        imagePullPolicy: Always
+        name: debug-analyst-wait
+        resources:
+          requests:
+            cpu: 10m
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      - env:
+        - name: RATELIMIT_SERVICE_URL
+        - name: BACKEND_HOSTNAME
+          value: labs2.cyberhaven.dev
+        - name: ELASTIC_HOSTNAME
+          value: https://elasticsearch-master:9200
+        - name: EXTERNAL_STORAGE_HOSTNAME
+          value: http://external-storage-external-storage:8080
+        - name: ES_CREDENTIALS
+          value: /etc/secrets/es-credentials
+        - name: ENDPOINT_ACTIONS_HOSTNAME
+          value: http://webserver:8080
+        - name: USERS_AUTH_HOSTNAME
+          value: http://lightbeam-users-auth:8080
+        - name: MAILER_HOSTNAME
+          value: http://mailer:8080
+        - name: GCP_PREFIX
+          valueFrom:
+            configMapKeyRef:
+              key: gcp-prefix
+              name: internal-api-configuration
+        - name: EDGES_TABLE
+          valueFrom:
+            configMapKeyRef:
+              key: bigquery-edges-table
+              name: internal-api-configuration
+        - name: EDGES_INDEX
+          valueFrom:
+            configMapKeyRef:
+              key: bigquery-edges-index
+              name: internal-api-configuration
+        - name: BIGQUERY_PROJECT
+          valueFrom:
+            configMapKeyRef:
+              key: bigquery-project
+              name: internal-api-configuration
+        - name: BIGQUERY_DATASET
+          valueFrom:
+            configMapKeyRef:
+              key: bigquery-dataset
+              name: internal-api-configuration
+        - name: BIGQUERY_USERS_TABLE
+          valueFrom:
+            configMapKeyRef:
+              key: bigquery-users-table
+              name: internal-api-configuration
+        - name: BIGQUERY_USER_MAPPINGS_TABLE
+          valueFrom:
+            configMapKeyRef:
+              key: bigquery-user-mappings-table
+              name: internal-api-configuration
+        - name: BIGQUERY_EVENT_ACTIONS_TABLE
+          valueFrom:
+            configMapKeyRef:
+              key: bigquery-event-actions-table
+              name: internal-api-configuration
+        - name: GIT_TAG
+        - name: GIT_VERSION
+        - name: CUSTOMER_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: customer-name
+              name: internal-api-configuration
+        - name: CUSTOMER_CODE
+          valueFrom:
+            configMapKeyRef:
+              key: customer-code
+              name: internal-api-configuration
+        - name: LAUNCH_DARKLY_SDK_KEY
+          valueFrom:
+            secretKeyRef:
+              key: sdkKey
+              name: vault-launch-darkly
+        - name: PROJECT_ID
+          value: $(BIGTABLE_PROJECT)
+        - name: HOST_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.hostIP
+        - name: SERVICE_NAME
+          value: internal-api
+        - name: INSTANCE_ID
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: LISTS_BUCKET
+          valueFrom:
+            configMapKeyRef:
+              key: lists-bucket
+              name: internal-api-configuration
+        - name: SPANNER_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              key: spanner-enabled
+              name: internal-api-configuration
+        - name: SPANNER_URI
+          valueFrom:
+            configMapKeyRef:
+              key: spanner-uri
+              name: internal-api-configuration
+        - name: BIGTABLE_PROJECT
+          valueFrom:
+            configMapKeyRef:
+              key: bigtable-project
+              name: internal-api-configuration
+        - name: BIGTABLE_INSTANCE_ID
+          valueFrom:
+            configMapKeyRef:
+              key: bigtable-instance-id
+              name: internal-api-configuration
+        - name: BIGTABLE_USERS_TABLE
+          valueFrom:
+            configMapKeyRef:
+              key: bigtable-users-table
+              name: internal-api-configuration
+        - name: BIGTABLE_EDGES_TABLE
+          valueFrom:
+            configMapKeyRef:
+              key: bigtable-edges-table
+              name: internal-api-configuration
+        - name: BIGTABLE_DBEDGES_TABLE
+          valueFrom:
+            configMapKeyRef:
+              key: bigtable-dbedges-table
+              name: internal-api-configuration
+        - name: BIGTABLE_RELATIONS_TABLE
+          valueFrom:
+            configMapKeyRef:
+              key: bigtable-relations-table
+              name: internal-api-configuration
+        - name: DATAFLOW_RETENTION_DAYS
+          valueFrom:
+            configMapKeyRef:
+              key: dataflow-retention-days
+              name: internal-api-configuration
+        - name: PGUSER
+          valueFrom:
+            secretKeyRef:
+              key: postgresqlRootUser
+              name: vault-postgresql-root-user
+        - name: PGPASS
+          valueFrom:
+            secretKeyRef:
+              key: postgresqlRootPassword
+              name: vault-postgresql-root-password
+        - name: PGDB
+          value: postgres
+        - name: PGCONN
+          value: postgres://$(PGUSER):$(PGPASS)@lightbeam-stolon-proxy:5432/$(PGDB)
+        image: us-docker.pkg.dev/cyberhaven-cd/dataflow/internal-api:platform-linea-v1.0.12-test-5dc6efc1
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /v1/health
+            port: 8080
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: debug-internal-api
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /v1/health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          requests:
+            cpu: 10m
+            memory: 50Mi
+        restartPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 1000
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: FallbackToLogsOnError
+        volumeMounts:
+        - mountPath: /etc/secrets
+          name: secrets
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: internal-api
+      serviceAccountName: internal-api
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: secrets
+        secret:
+          defaultMode: 420
+          items:
+          - key: es-credentials
+            path: es-credentials
+          secretName: vault-es-credentials
+status:
+  completionTime: "2025-03-20T11:15:54Z"
+  conditions:
+  - lastProbeTime: "2025-03-20T11:15:54Z"
+    lastTransitionTime: "2025-03-20T11:15:54Z"
+    status: "True"
+    type: Complete
+  ready: 0
+  startTime: "2025-03-20T11:07:25Z"
+  succeeded: 1
+  terminating: 0
+  uncountedTerminatedPods: {}

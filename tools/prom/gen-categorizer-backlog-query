@@ -1,0 +1,66 @@
+#!/bin/zsh
+# Generate a PromQL query: ask-categorizer pubsub backlog summed by shared_project_id.
+#
+# Customer -> prod group mapping is read from environments-definitions origin/main
+# via a temporary worktree (your local checkout/branch is never touched).
+#
+# Subscription naming assumed: ch-<code>-ci_stack.v1.[ch-<code>-<cloud>.]ask-categorizer-sub
+# The inner selector is categorizer-only: it excludes variant subs like
+# ...v1.linea.ask-categorizer-sub and ...v1.dar.ask-categorizer-sub, while keeping
+# per-cloud-account subs (...v1.ch-<code>-gcp-us-east1.ask-categorizer-sub).
+#
+# Customers whose subscription matches no group regex land in shared_project_id="unmapped".
+#
+# Usage: gen-categorizer-backlog-query [output-file]
+#        default output: ~/llmout/backlog_by_group.promql
+
+set -e
+
+ENVDEF_DIR="$HOME/code/environments-definitions"
+OUT="${1:-$HOME/llmout/backlog_by_group.promql}"
+
+WORKTREE=$(mktemp -d /tmp/envdef-main.XXXXXX)
+cleanup() { git -C "$ENVDEF_DIR" worktree remove "$WORKTREE" --force 2>/dev/null || true; rm -rf "$WORKTREE"; }
+trap cleanup EXIT
+
+git -C "$ENVDEF_DIR" fetch origin main --quiet
+rmdir "$WORKTREE"  # git worktree add wants to create the dir itself
+git -C "$ENVDEF_DIR" worktree add "$WORKTREE" origin/main --detach --quiet
+
+yq 'select(.ai_categorization.categorizer.enabled == true) | [filename, .shared_project_id] | @tsv' \
+  --no-doc "$WORKTREE"/prod/*.yaml | python3 -c '
+import sys, os, collections
+
+groups = collections.defaultdict(list)
+for line in sys.stdin:
+    if "\t" not in line:  # yq emits a blank line per non-matching doc
+        continue
+    path, grp = line.strip().split("\t")
+    cust = os.path.basename(path).removesuffix(".yaml")
+    if cust.startswith("ch-prod-"):
+        code = cust[len("ch-prod-"):]
+    elif cust == "ch-release-product":
+        code = "r-p"  # subscription naming for this env
+    else:
+        # dogfood, release-candidate, ch-demo_demo2a: subscription code unknown -> unmapped
+        continue
+    groups[grp].append(code)
+
+inner = (
+    "max by (subscription_id) (gcp_pubsub_subscription_pubsub_googleapis_com_subscription_num_undelivered_messages"
+    "{subscription_id=~\"ch-.*-ci_stack\\\\.v1\\\\.(ch-.*\\\\.)?ask-categorizer-sub\"})"
+)
+expr = inner
+for grp in sorted(groups):
+    alt = "|".join(sorted(groups[grp]))
+    expr = (f"label_replace(\n{expr},\n"
+            f"  \"shared_project_id\", \"{grp}\", \"subscription_id\", "
+            f"\"ch-({alt})-ci_stack.*ask-categorizer-sub\")")
+expr = (f"label_replace(\n{expr},\n"
+        f"  \"shared_project_id\", \"unmapped\", \"shared_project_id\", \"\")")
+
+print(f"sum by (shared_project_id) (\n{expr}\n)")
+print(f"{sum(len(v) for v in groups.values())} customers across {len(groups)} groups", file=sys.stderr)
+' > "$OUT"
+
+echo "Wrote $OUT"
