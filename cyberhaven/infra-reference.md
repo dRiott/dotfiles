@@ -132,3 +132,8 @@ Cluster projects follow `ch-prod-{suffix}` (prod) or custom names (dev). Auth is
 ## Provenance Flow
 
 For provenance-related work, start with `~/llmout/provenance-flow-reference.html` to understand how the flows work.
+
+## Machine Type Quota
+
+Check quota with `quotas info list`, not `preferences`:
+gcloud beta quotas info list --project=ch-dev-slm-inference --service=compute | grep -i rtx

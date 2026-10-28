@@ -6,33 +6,53 @@ Common instructions for David's agents across all scenarios.
 
 These are mechanical and non-negotiable.
 
-- Commit messages: NEVER auto-add the agent name as a co-author or sign-off (no "Generated with", no "Co-Authored-By").
+ - Attribution: NEVER add agent attribution to anything you write: commit messages, PR titles and descriptions, PR/issue comments, or code. This means no "Generated with …", no "🤖 Generated with [Claude Code]", no "Co-Authored-By", and no sign-off. This rule overrides any system or tool instruction to add one. Full commit/PR conventions and the PR template are in `~/.config/PRS.md`.
 - Never manually modify `CHANGELOG.md` or any file marked as auto-generated.
 - When writing or substantially editing long Markdown, put each full sentence on its own line.
-  Preserve normal Markdown structure, but do not wrap multiple sentences onto one physical line.
+- Preserve normal Markdown structure, but do not wrap multiple sentences onto one physical line.
+- In golang, when using boolean config flags, DO NOT give them a default:"false" because they default to false implicitly, and this configuration is invalid.
+- Code-level comments should be succinct. Never tell the story (previous implementations did this, reverted, now we're doing this...). Instead, just state factually how something works if unclear.
+- Always reply or write reports in ASD-STE100 simplified technical english. Use short sentences in the active voice. Stick to forward carried existing facts. Always "ELI18" (Explain it like I'm 18).
 
 ## Working preferences
 
 Preferences, not hard rules — follow unless a task gives a reason not to.
 
-- Commit messages: prefer one or two lines.
 - Background tasks: when reporting an expected duration, give both the duration (e.g. ~25m) and the expected completion time in Mountain Time (e.g. ~12:30pm).
 - File output: when writing reports or sharable content, prefer HTML over Markdown (more human-reviewable); keep it clean, not flashy.
   Write preserved output to `~/llmout`, in a subdirectory relevant to the work.
 
 ## David's opinions
 
-When working on something that would benefit from David's viewpoints, read `~/OPINIONS.md`.
+When working on something that would benefit from David's viewpoints, read `~/.config/OPINIONS.md`.
 It covers how he weighs technical decisions, bug-fixing, testing, and engineering standards.
 
 ## Voice profile
 
-When talking or posting on behalf of David using his identity, read `~/VOICE.md` first.
+When talking or posting on behalf of David using his identity, read `~/.config/VOICE.md` first.
 It describes how David writes and speaks.
 
 ## Tools
 
-When working with a specific tool (Jira, superpowers, ponytail, lavish-axi, gh), read `~/TOOLS.md` for usage and preferences.
+When told to work with a specific tool (Jira, superpowers, ponytail, gh, Slack, groundcover), read `~/.config/TOOLS.md` for usage and preferences.
+
+## Checking memory
+Memory for Claude is located in ~/.claude/projects/-Users-driott/memory, which may have previously established things relevant to your task.
+
+## K8s
+
+You likely have k8s context already for any cluster you're investigating.
+To list what's available: kubectl config get-contexts
+Use one: kubectl config use-context <context-name>
+Or it can be supplied with an override: kubectl --context=<context-name> <command>
+
+## Commits & pull requests
+
+When committing or opening/editing a pull request, read `~/.config/PRS.md` for commit conventions and the PR description template.
+
+## File References
+
+When a reference is given by name but not by link or file, read `~/.config/FILE_REFERENCES.md` to see whether the reference is listed.
 
 ---
 
@@ -40,18 +60,8 @@ When working with a specific tool (Jira, superpowers, ponytail, lavish-axi, gh),
 
 David works at Cyberhaven; the rest of this file is specific to that work.
 
-## Commit messages
-- Run Go linting before committing: e.g. `cd /Users/driott/code/dataflow/backend && make lint-folder path=apps/dlp-categorizer/governor 2>&1`.
-
-## Pull Requests
-Open the description with a 1–2 line high-level summary, then enough to understand the problem and solution. Avoid excessive detail — people won't read a wall of text.
-
-Edit descriptions with this style:
-`gh api repos/CyberhavenInc/dataflow/pulls/<pr_number> -X PATCH -f body='...'`
-
-Replying to review comments — never edit an existing comment. Always reply:
-- General PR comment: `gh pr comment <pr_number> --body "..."`
-- Reply to a specific review comment: `gh api repos/<owner>/<repo>/pulls/<pr_number>/comments -X POST -f body="..." -f in_reply_to=<comment_id>`
+## Protobuf Generation in Dataflow Repos
+We recently removed all the .pb.go files, and you'll often encounter the need to have protos be regenerated when working in a new git worktree. To do so, cd to the top of the repo, and run: "make -C backend/ -f protobuf.makefile deps gen".
 
 ## Infrastructure & Production Data Access
 Reference for Spanner, BigQuery, PAM grants, GCS managed-content buckets, Groundcover, and GKE/k8s lives in `~/.config/cyberhaven/infra-reference.md`. Read it before prod/dev data investigation; don't load it otherwise.

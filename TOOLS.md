@@ -40,6 +40,28 @@ jira-api PUT /rest/api/3/issue/DDR-1234 '{"fields":{...}}'
 - `acli` subcommands have different flags — e.g. `assign` uses `-k`/`-a`/`-y`, `transition` uses `--key`/`--status`/`--yes`. Always check `acli jira workitem <cmd> --help` when writing new wrappers.
 - For operations not covered by these tools, fall back to `jira-api` or `acli jira` directly
 
+## Slack
+`slack-alerts` (in `~/.config/tools/slack/`, on PATH) reads a Slack channel and flattens it to plain text an agent can actually read.
+
+```bash
+slack-alerts <channel_id> [hours_back]    # default 24h
+slack-alerts C0B12U7N0M7 6                # #rd-ai-classification-alerts, last 6h
+```
+
+### Why this exists, not slack-axi
+`slack-axi read` only surfaces a message's top-level `text` field. Groundcover/alertmanager alerts post their content in legacy **`attachments`** (and some bots use Block Kit `blocks`), leaving `text` empty — so those alerts read blank through slack-axi. `slack-alerts` flattens `attachments[].fallback`/`.title`/`.text` plus `blocks`, strips Slack `<url|label>` link markup, and prints one timestamped entry per message.
+
+Each alert is prefixed with a structured `[env=… app=… team=…]` tag parsed from the `matcher_*` query params in the alert's silence link — more reliable than scraping the title. If the monitor didn't populate the env/cluster, it prints `env=MISSING` (e.g. the `vLLM preemptions` monitor has a blank cluster — that's an upstream Groundcover template bug, the cluster is absent from the Slack payload entirely, not a parsing gap).
+
+`slack-alerts --selftest` checks the matcher parsing.
+
+### Notes
+- Reuses slack-axi's stored user token (`~/.config/slack-axi/workspaces/<TEAM>/token.json`) — no separate auth. Run `slack-axi auth` if the token expires.
+- Uses `curl` under the hood (the python.org Python build ships no CA bundle, so `urllib` fails SSL).
+- Takes a **channel ID**, not a `#name`. Get IDs from `slack-axi channels`.
+- Paginates via cursor (full window), emoji codes left raw — see the `ponytail:` notes in the script for upgrade paths.
+- For general Slack reading/search/draft, still use `slack-axi`; `slack-alerts` is only for alert/attachment-heavy channels.
+
 ## superpowers
 Skill framework: invoke a skill via the `Skill` tool before acting when one applies; never `Read` skill files directly.
 Priority is explicit: David's instructions (CLAUDE.md/AGENTS.md) > skills > default behavior — skills do not override a direct instruction.
@@ -52,11 +74,6 @@ Mark deliberate shortcuts with a `ponytail:` comment naming the ceiling and upgr
 Switch levels with `/ponytail lite|full|ultra`; disable with "stop ponytail" / "normal mode".
 Never simplify away validation, error handling, security, accessibility, or anything explicitly requested.
 
-## lavish-axi
-HTML-artifact review tool — turns a rich/interactive HTML page into a surface David can annotate and send feedback from.
-Use when a response is easier to grasp visually (plans, comparisons, diagrams, tables, dashboards).
-Workflow: write HTML under `.lavish/`, run `lavish-axi <html-file>`, then `lavish-axi poll <html-file>` (long-polls — leave it running) and fix any reported `layout_warnings` before involving David.
-
 ## gh-axi (GitHub)
 Agent skill installed at `~/.agents/skills/gh-axi`. Prefer it over raw `gh` for GitHub operations (issues, PRs, CI runs, workflows, releases, repos, labels, search, raw API).
 Invoke with `npx -y gh-axi <command>` — no global install needed; npx resolves it on demand.
@@ -64,5 +81,5 @@ Requires the `gh` CLI installed and authenticated (`gh auth login`); if a comman
 Run `npx -y gh-axi` with no args for a repo dashboard; target another repo with `-R owner/name` placed AFTER the command.
 PR description / review-reply etiquette lives in the **Pull Requests** section of `~/.config/AGENTS.md`.
 
-## Other tooling
-<!-- Add new tool preferences here so they stay lazy-loaded with the rest. -->
+## Git Worktrees
+Use `treehouse` to manage worktrees.
