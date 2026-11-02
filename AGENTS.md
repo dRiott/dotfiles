@@ -65,6 +65,7 @@ We recently removed all the .pb.go files, and you'll often encounter the need to
 
 ## Infrastructure & Production Data Access
 Reference for Spanner, BigQuery, PAM grants, GCS managed-content buckets, Groundcover, and GKE/k8s lives in `~/.config/cyberhaven/infra-reference.md`. Read it before prod/dev data investigation; don't load it otherwise.
+Before infra, deploy or prod work, read `~/.openrig/context/cyberhaven-infra/cyberhaven-infra.md`: it indexes dev clusters, deploys, observability and validation.
 
 For editing Grafana dashboards (`monitoring.cyberhaven.io/grafana/d/…`) or Groundcover explore dashboards via REST API, see `~/.config/cyberhaven/groundcover-dashboards.md`.
 
